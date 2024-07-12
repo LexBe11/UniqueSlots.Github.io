@@ -1,4 +1,4 @@
-let balance = 100; // Initial balance
+let balance = 3500; // Initial balance
 const spinCost = 5; // Cost per spin
 
 function spin() {
