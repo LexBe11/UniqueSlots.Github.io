@@ -9,12 +9,21 @@
 <body>
     <div class="container">
         <h1>Slot Machine</h1>
-        <div class="slot-machine">
-            <div class="slot" id="slot1"></div>
-            <div class="slot" id="slot2"></div>
-            <div class="slot" id="slot3"></div>
-            <button onclick="spin()">Spin</button>
+        <div id="balance">Balance: $2500.00</div>
+        <div class="betting-options">
+            <button onclick="placeBet(10, this)">Bet $10</button>
+            <button onclick="placeBet(20, this)">Bet $20</button>
+            <button onclick="placeBet(50, this)">Bet $50</button>
+            <button onclick="placeBet(100, this)">Bet $100</button>
+            <button onclick="placeBet(500, this)">Bet $500</button>
+            <button onclick="placeBet(1000, this)">Bet $1000</button>
         </div>
+        <div class="slot-machine">
+            <div class="slot" id="slot1">🍒</div>
+            <div class="slot" id="slot2">🍒</div>
+            <div class="slot" id="slot3">🍒</div>
+        </div>
+        <button onclick="spin()">Spin</button>
         <p id="result"></p>
     </div>
     <script src="script.js"></script>
