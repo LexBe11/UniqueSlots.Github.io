@@ -1,113 +1,68 @@
-// Initialize Firebase
-var firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id"
-};
-firebase.initializeApp(firebaseConfig);
-
-// Initialize Firestore
-const firestore = firebase.firestore();
-
-let userId = null; // Replace with the actual user ID after authentication
-
-// Function to retrieve user data (like balance)
-function retrieveUserData() {
-  firestore.collection('users').doc(userId).get()
-    .then((doc) => {
-      if (doc.exists) {
-        var userData = doc.data();
-        document.getElementById('balance').textContent = `Balance: $${userData.balance}`;
-      } else {
-        console.log('No such document!');
-      }
-    })
-    .catch((error) => {
-      console.log('Error getting document:', error);
-    });
-}
-
-// Example function to update user's balance
-function updateBalance(newBalance) {
-  firestore.collection('users').doc(userId).set({
-    balance: newBalance
-  }, { merge: true })
-  .then(() => {
-    console.log('Balance updated successfully!');
-    document.getElementById('balance').textContent = `Balance: $${newBalance}`;
-  })
-  .catch((error) => {
-    console.error('Error updating balance:', error);
-  });
-}
+let balance = 3500;
+let betAmount = 10;
+let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢'];
 
 function spin() {
-    let symbols = ['🍒', '🍊', '🍏', '🍌', '7', '7🔵', '7🔴', '7🟢'];
+    if (balance < betAmount) {
+        alert("Not enough balance to place the bet.");
+        return;
+    }
+
+    balance -= betAmount;
+    updateBalance();
+
     let results = [];
-    let balanceElement = document.getElementById('balance');
-    let currentBalance = parseInt(balanceElement.textContent.replace('Balance: $', ''));
-
-    if (currentBalance <= 0) {
-        alert('You do not have enough balance to spin.');
-        return;
-    }
-
-    let betAmount = getBetAmount(); // Function to get the selected bet amount
-    if (currentBalance < betAmount) {
-        alert('You do not have enough balance to place this bet.');
-        return;
-    }
-
-    currentBalance -= betAmount;
-    updateBalance(currentBalance); // Update balance in Firestore
-
-    // Random number to determine which pattern to use
-    let randomNumber = Math.random() * 1000;
+    let randomNumber = Math.random() * 100;
 
     // Define patterns with different probabilities
-    if (randomNumber < 1) {
-        results = ['7🔵', '7🔵', '7🔵']; // 0.1% chance for 3x Blue 7s
-    } else if (randomNumber < 2) {
-        results = ['7🔴', '7🔴', '7🔴']; // 0.1% chance for 3x Red 7s
-    } else if (randomNumber < 3) {
-        results = ['7🟢', '7🟢', '7🟢']; // 0.1% chance for 3x Green 7s
-    } else if (randomNumber < 5) {
-        results = ['7', '7', '7']; // 0.2% chance for 3x Black 7s
-    } else if (randomNumber < 25) {
-        results = ['🍊', '7', '7']; // 2% chance for Orange, 2x 7s
-    } else if (randomNumber < 45) {
-        results = ['🍏', '7', '7']; // 2% chance for Apple, 2x 7s
-    } else if (randomNumber < 65) {
-        results = ['🍌', '7', '7']; // 2% chance for Banana, 2x 7s
-    } else if (randomNumber < 85) {
-        results = ['🍒', '7', '7']; // 2% chance for Cherry, 2x 7s
-    } else if (randomNumber < 125) {
-        results = ['7', '🍊', '🍏']; // 4% chance for 7, Orange, Apple
-    } else if (randomNumber < 165) {
-        results = ['🍊', '7', '🍌']; // 4% chance for Orange, 7, Banana
-    } else if (randomNumber < 205) {
-        results = ['🍏', '🍏', '7']; // 4% chance for 2x Apple, 7
-    } else if (randomNumber < 245) {
-        results = ['🍌', '🍌', '7']; // 4% chance for 2x Banana, 7
-    } else if (randomNumber < 285) {
-        results = ['🍒', '7', '🍏']; // 4% chance for Cherry, 7, Apple
-    } else if (randomNumber < 325) {
-        results = ['🍊', '🍊', '🍊']; // 4% chance for 3x Oranges
-    } else if (randomNumber < 355) {
-        results = ['🍏', '🍏', '🍏']; // 3% chance for 3x Apples
-    } else if (randomNumber < 375) {
-        results = ['🍌', '🍌', '🍌']; // 2% chance for 3x Bananas
-    } else if (randomNumber < 395) {
-        results = ['🍒', '🍒', '🍒']; // 2% chance for 3x Cherries
+    if (randomNumber < 2) {
+        results = ['7🖤', '7🖤', '7🖤']; // 2% chance for 3x Black 7s
+    } else if (randomNumber < 4) {
+        results = ['7🔵', '7🔵', '7🔵']; // 2% chance for 3x Blue 7s
+    } else if (randomNumber < 6) {
+        results = ['7🔴', '7🔴', '7🔴']; // 2% chance for 3x Red 7s
+    } else if (randomNumber < 8) {
+        results = ['7🟢', '7🟢', '7🟢']; // 2% chance for 3x Green 7s
+    } else if (randomNumber < 10) {
+        results = ['🍊', '7🖤', '7🔵']; // 2% chance for Orange, Black 7, Blue 7
+    } else if (randomNumber < 12) {
+        results = ['🍏', '7🔵', '7🔴']; // 2% chance for Apple, Blue 7, Red 7
+    } else if (randomNumber < 14) {
+        results = ['🍌', '7🔴', '7🟢']; // 2% chance for Banana, Red 7, Green 7
+    } else if (randomNumber < 16) {
+        results = ['🍒', '7🟢', '7🖤']; // 2% chance for Cherry, Green 7, Black 7
+    } else if (randomNumber < 18) {
+        results = ['7🖤', '7🔵', '7🔴']; // 2% chance for Black 7, Blue 7, Red 7
+    } else if (randomNumber < 20) {
+        results = ['7🔵', '7🔴', '7🟢']; // 2% chance for Blue 7, Red 7, Green 7
+    } else if (randomNumber < 24) {
+        results = ['🍊', '🍏', '🍌']; // 4% chance for Orange, Apple, Banana
+    } else if (randomNumber < 28) {
+        results = ['🍌', '🍌', '7🔵']; // 4% chance for 2x Banana, Blue 7
+    } else if (randomNumber < 32) {
+        results = ['🍒', '7🔵', '7🟢']; // 4% chance for Cherry, Blue 7, Green 7
+    } else if (randomNumber < 36) {
+        results = ['7🟢', '7🟢', '7🟢']; // 4% chance for 3x Green 7s
+    } else if (randomNumber < 42) {
+        results = ['🍏', '🍏', '7🔵']; // 6% chance for 2x Apple, Blue 7
+    } else if (randomNumber < 48) {
+        results = ['🍊', '7🟢', '7🔴']; // 6% chance for Orange, Green 7, Red 7
+    } else if (randomNumber < 54) {
+        results = ['7🔴', '7🟢', '7🖤']; // 6% chance for Red 7, Green 7, Black 7
+    } else if (randomNumber < 60) {
+        results = ['7🖤', '7🟢', '7🔵']; // 6% chance for Black 7, Green 7, Blue 7
+    } else if (randomNumber < 70) {
+        results = ['🍏', '🍌', '🍒']; // 10% chance for Apple, Banana, Cherry
+    } else if (randomNumber < 80) {
+        results = ['🍊', '7🔴', '7🖤']; // 10% chance for Orange, Red 7, Black 7
+    } else if (randomNumber < 90) {
+        results = ['7🔵', '7🔴', '7🍌']; // 10% chance for Blue 7, Red 7, Banana
     } else {
-        results = [symbols[Math.floor(Math.random() * symbols.length)], symbols[Math.floor(Math.random() * symbols.length)], symbols[Math.floor(Math.random() * symbols.length)]];
+        results = ['🍒', '🍒', '🍒']; // Default: 10% chance for 3x Cherries
     }
 
     updateSlots(results);
-    checkWin(results, betAmount); // Pass bet amount to checkWin function
+    checkWin(results);
 }
 
 function updateSlots(results) {
@@ -116,63 +71,42 @@ function updateSlots(results) {
     document.getElementById('slot3').textContent = results[2];
 }
 
-function checkWin(results, betAmount) {
+function checkWin(results) {
     let resultText = document.getElementById('result');
-    let balanceElement = document.getElementById('balance');
-    let currentBalance = parseInt(balanceElement.textContent.replace('Balance: $', ''));
 
     if (results[0] === results[1] && results[1] === results[2]) {
-        let prize = 0;
-        if (results[0] === '7🔵') {
-            prize = betAmount * 100;
-            resultText.textContent = `Jackpot! 🎉 You got 3x Blue 7s and won $${prize}!`;
+        if (results[0] === '7🖤') {
+            resultText.textContent = 'Jackpot! 🎉 You got 3x Black 7s! You win $100,000!';
+            balance += 100000;
+        } else if (results[0] === '7🔵') {
+            resultText.textContent = 'You got 3x Blue 7s! You win $50,000!';
+            balance += 50000;
         } else if (results[0] === '7🔴') {
-            prize = betAmount * 75;
-            resultText.textContent = `Jackpot! 🎉 You got 3x Red 7s and won $${prize}!`;
+            resultText.textContent = 'You got 3x Red 7s! You win $30,000!';
+            balance += 30000;
         } else if (results[0] === '7🟢') {
-            prize = betAmount * 50;
-            resultText.textContent = `Jackpot! 🎉 You got 3x Green 7s and won $${prize}!`;
-        } else if (results[0] === '7') {
-            prize = betAmount * 25;
-            resultText.textContent = `Jackpot! 🎉 You got 3x Black 7s and won $${prize}!`;
-        } else if (results[0] === '🍊') {
-            prize = betAmount * 10;
-            resultText.textContent = `You got 3x Oranges and won $${prize}!`;
-        } else if (results[0] === '🍏') {
-            prize = betAmount * 5;
-            resultText.textContent = `You got 3x Apples and won $${prize}!`;
-        } else if (results[0] === '🍌') {
-            prize = betAmount * 3;
-            resultText.textContent = `You got 3x Bananas and won $${prize}!`;
+            resultText.textContent = 'You got 3x Green 7s! You win $20,000!';
+            balance += 20000;
         } else if (results[0] === '🍒') {
-            prize = betAmount * 2;
-            resultText.textContent = `You got 3x Cherries and won $${prize}!`;
+            resultText.textContent = 'You got 3x Cherries! You win $10,000!';
+            balance += 10000;
+        } else if (results[0] === '🍊') {
+            resultText.textContent = 'You got 3x Oranges! You win $5,000!';
+            balance += 5000;
+        } else if (results[0] === '🍏') {
+            resultText.textContent = 'You got 3x Apples! You win $3,000!';
+            balance += 3000;
+        } else if (results[0] === '🍌') {
+            resultText.textContent = 'You got 3x Bananas! You win $2,000!';
+            balance += 2000;
         }
-
-        currentBalance += prize;
-        updateBalance(currentBalance); // Update balance in Firestore
     } else {
         resultText.textContent = 'Try again!';
     }
+
+    updateBalance();
 }
 
-function getBetAmount() {
-    let selectedBetButton = document.querySelector('.bet-button.selected');
-    return parseInt(selectedBetButton.value);
-}
-
-// Example usage: Set userId after authentication
-firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-        userId = user.uid;
-        retrieveUserData();
-    } else {
-        // User is signed out
-        console.log('User signed out');
-    }
-});
-
-function selectBet(button) {
-    document.querySelectorAll('.bet-button').forEach(btn => btn.classList.remove('selected'));
-    button.classList.add('selected');
+function updateBalance() {
+    document.getElementById('balance').textContent = balance;
 }
