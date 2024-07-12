@@ -1,4 +1,31 @@
+let balance = 2500.00;
+let activeBet = null;
+
+function updateBalance() {
+    document.getElementById('balance').innerText = `Balance: $${balance.toFixed(2)}`;
+}
+
+function placeBet(amount, button) {
+    activeBet = amount;
+    let buttons = document.querySelectorAll('.betting-options button');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+}
+
 function spin() {
+    if (activeBet === null) {
+        alert("Please place a bet!");
+        return;
+    }
+
+    if (balance < activeBet) {
+        alert("Insufficient balance!");
+        return;
+    }
+
+    balance -= activeBet;
+    updateBalance();
+
     let symbols = ['🍒', '🍊', '🍏', '🍌', '7'];
     let results = [];
 
@@ -48,20 +75,29 @@ function updateSlots(results) {
 
 function checkWin(results) {
     let resultText = document.getElementById('result');
+    let winnings = 0;
 
     if (results[0] === results[1] && results[1] === results[2]) {
         if (results[0] === '7') {
             resultText.textContent = 'Jackpot! 🎉 You got 3x 7s!';
+            winnings = activeBet * 1000;
         } else if (results[0] === '🍊') {
             resultText.textContent = 'You got 3x Oranges!';
+            winnings = activeBet * 50;
         } else if (results[0] === '🍏') {
             resultText.textContent = 'You got 3x Apples!';
+            winnings = activeBet * 20;
         } else if (results[0] === '🍌') {
             resultText.textContent = 'You got 3x Bananas!';
+            winnings = activeBet * 10;
         } else if (results[0] === '🍒') {
             resultText.textContent = 'You got 3x Cherries!';
+            winnings = activeBet * 5;
         }
     } else {
         resultText.textContent = 'Try again!';
     }
+
+    balance += winnings;
+    updateBalance();
 }
