@@ -77,16 +77,16 @@ function checkWin(results) {
     if (results[0] === results[1] && results[1] === results[2]) {
         if (results[0] === '7🖤') {
             resultText.textContent = 'Jackpot! 🎉 You got 3x Black 7s! You win $10,000,000!';
-            balance += 100000;
+            balance += 10000000;
         } else if (results[0] === '7🔵') {
             resultText.textContent = 'You got 3x Blue 7s! You win $2,500,000!';
-            balance += 50000;
+            balance += 2500000;
         } else if (results[0] === '7🔴') {
             resultText.textContent = 'You got 3x Red 7s! You win $1,200,000!';
-            balance += 30000;
+            balance += 1200000;
         } else if (results[0] === '7🟢') {
             resultText.textContent = 'You got 3x Green 7s! You win $830,000!';
-            balance += 20000;
+            balance += 830000;
         } else if (results[0] === '🍒') {
             resultText.textContent = 'You got 3x Cherries! You win $10,000!';
             balance += 10000;
