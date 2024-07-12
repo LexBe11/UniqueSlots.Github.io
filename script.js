@@ -15,50 +15,50 @@ function spin() {
     let randomNumber = Math.random() * 100;
 
     // Define patterns with different probabilities
-    if (randomNumber < 2) {
-        results = ['7🖤', '7🖤', '7🖤']; // 2% chance for 3x Black 7s
-    } else if (randomNumber < 4) {
-        results = ['7🔵', '7🔵', '7🔵']; // 2% chance for 3x Blue 7s
-    } else if (randomNumber < 6) {
-        results = ['7🔴', '7🔴', '7🔴']; // 2% chance for 3x Red 7s
-    } else if (randomNumber < 8) {
-        results = ['7🟢', '7🟢', '7🟢']; // 2% chance for 3x Green 7s
-    } else if (randomNumber < 10) {
-        results = ['🍊', '7🖤', '7🔵']; // 2% chance for Orange, Black 7, Blue 7
-    } else if (randomNumber < 12) {
-        results = ['🍏', '7🔵', '7🔴']; // 2% chance for Apple, Blue 7, Red 7
-    } else if (randomNumber < 14) {
-        results = ['🍌', '7🔴', '7🟢']; // 2% chance for Banana, Red 7, Green 7
-    } else if (randomNumber < 16) {
-        results = ['🍒', '7🟢', '7🖤']; // 2% chance for Cherry, Green 7, Black 7
-    } else if (randomNumber < 18) {
-        results = ['7🖤', '7🔵', '7🔴']; // 2% chance for Black 7, Blue 7, Red 7
-    } else if (randomNumber < 20) {
+    if (randomNumber < 0.01) {
+        results = ['7🖤', '7🖤', '7🖤']; // 0.01% chance for 3x Black 7s
+    } else if (randomNumber < 0.11) {
+        results = ['7🔵', '7🔵', '7🔵']; // 0.1% chance for 3x Blue 7s
+    } else if (randomNumber < 0.21) {
+        results = ['7🔴', '7🔴', '7🔴']; // 0.1% chance for 3x Red 7s
+    } else if (randomNumber < 0.31) {
+        results = ['7🟢', '7🟢', '7🟢']; // 0.1% chance for 3x Green 7s
+    } else if (randomNumber < 2.31) {
         results = ['7🔵', '7🔴', '7🟢']; // 2% chance for Blue 7, Red 7, Green 7
-    } else if (randomNumber < 24) {
-        results = ['🍊', '🍏', '🍌']; // 4% chance for Orange, Apple, Banana
-    } else if (randomNumber < 28) {
-        results = ['🍌', '🍌', '7🔵']; // 4% chance for 2x Banana, Blue 7
-    } else if (randomNumber < 32) {
-        results = ['🍒', '7🔵', '7🟢']; // 4% chance for Cherry, Blue 7, Green 7
-    } else if (randomNumber < 36) {
-        results = ['7🟢', '7🟢', '7🟢']; // 4% chance for 3x Green 7s
-    } else if (randomNumber < 42) {
-        results = ['🍏', '🍏', '7🔵']; // 6% chance for 2x Apple, Blue 7
-    } else if (randomNumber < 48) {
-        results = ['🍊', '7🟢', '7🔴']; // 6% chance for Orange, Green 7, Red 7
-    } else if (randomNumber < 54) {
-        results = ['7🔴', '7🟢', '7🖤']; // 6% chance for Red 7, Green 7, Black 7
-    } else if (randomNumber < 60) {
-        results = ['7🖤', '7🟢', '7🔵']; // 6% chance for Black 7, Green 7, Blue 7
-    } else if (randomNumber < 70) {
-        results = ['🍏', '🍌', '🍒']; // 10% chance for Apple, Banana, Cherry
-    } else if (randomNumber < 80) {
-        results = ['🍊', '7🔴', '7🖤']; // 10% chance for Orange, Red 7, Black 7
-    } else if (randomNumber < 90) {
-        results = ['7🔵', '7🔴', '7🍌']; // 10% chance for Blue 7, Red 7, Banana
+    } else if (randomNumber < 4.31) {
+        results = ['7🔴', '7🟢', '7🖤']; // 2% chance for Red 7, Green 7, Black 7
+    } else if (randomNumber < 6.31) {
+        results = ['7🖤', '7🟢', '7🔵']; // 2% chance for Black 7, Green 7, Blue 7
+    } else if (randomNumber < 16.31) {
+        results = ['🍒', '🍒', '🍒']; // 10% chance for 3x Cherries
+    } else if (randomNumber < 26.31) {
+        results = ['🍊', '🍊', '🍊']; // 10% chance for 3x Oranges
+    } else if (randomNumber < 36.31) {
+        results = ['🍏', '🍏', '🍏']; // 10% chance for 3x Apples
+    } else if (randomNumber < 46.31) {
+        results = ['🍌', '🍌', '🍌']; // 10% chance for 3x Bananas
+    } else if (randomNumber < 56.31) {
+        results = ['🍒', '🍊', '🍏']; // 10% chance for Cherry, Orange, Apple
+    } else if (randomNumber < 66.31) {
+        results = ['🍌', '7🔴', '7🟢']; // 10% chance for Banana, Red 7, Green 7
+    } else if (randomNumber < 76.31) {
+        results = ['7🔵', '7🔴', '🍏']; // 10% chance for Blue 7, Red 7, Apple
+    } else if (randomNumber < 78.31) {
+        results = ['🍒', '🍊', '🍌']; // 2% chance for Cherry, Orange, Banana
+    } else if (randomNumber < 80.31) {
+        results = ['🍏', '🍌', '🍒']; // 2% chance for Apple, Banana, Cherry
+    } else if (randomNumber < 82.31) {
+        results = ['🍊', '🍏', '🍌']; // 2% chance for Orange, Apple, Banana
+    } else if (randomNumber < 84.31) {
+        results = ['7🖤', '7🔵', '7🔴']; // 2% chance for Black 7, Blue 7, Red 7
+    } else if (randomNumber < 86.31) {
+        results = ['7🟢', '7🔵', '7🔴']; // 2% chance for Green 7, Blue 7, Red 7
+    } else if (randomNumber < 88.31) {
+        results = ['7🔴', '7🟢', '7🔵']; // 2% chance for Red 7, Green 7, Blue 7
+    } else if (randomNumber < 90.31) {
+        results = ['7🔵', '7🟢', '7🖤']; // 2% chance for Blue 7, Green 7, Black 7
     } else {
-        results = ['🍒', '🍒', '🍒']; // Default: 10% chance for 3x Cherries
+        results = ['🍒', '🍒', '7🔵']; // Default: 10% chance for Cherry, Cherry, Blue 7
     }
 
     updateSlots(results);
