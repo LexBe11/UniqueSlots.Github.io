@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
+    <div class="slot-machine">
         <h1>Slot Machine</h1>
         <div class="slots">
             <div id="slot1" class="slot">🍒</div>
             <div id="slot2" class="slot">🍒</div>
             <div id="slot3" class="slot">🍒</div>
         </div>
-        <div class="controls">
-            <button onclick="spin()">Spin</button>
-            <div id="balance" class="balance">Balance: 3500</div>
+        <button onclick="spin()">Spin</button>
+        <div class="info">
+            <p>Balance: $<span id="balance">3500</span></p>
+            <p id="result">Good Luck!</p>
         </div>
-        <div id="resultText" class="resultText">Welcome! Press Spin to play!</div>
     </div>
     <script src="script.js"></script>
 </body>
