@@ -1,6 +1,54 @@
 let balance = 3500;
 let betAmount = 10;
-let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢'];
+let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢', 'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴', 'BONUS🟣', '9', '21', '3'];
+
+let mixedVariations = [
+    ['BONUS🥇', 'BONUS🥇', 'BONUS🥇'],
+    ['BONUS🔵', 'BONUS🔵', 'BONUS🔵'],
+    ['BONUS🟢', 'BONUS🟢', 'BONUS🟢'],
+    ['BONUS⚫', 'BONUS⚫', 'BONUS⚫'],
+    ['BONUS🔴', 'BONUS🔴', 'BONUS🔴'],
+    ['BONUS🟣', 'BONUS🟣', 'BONUS🟣'],
+    ['7🖤', '7🖤', '7🖤'],
+    ['7🔵', '7🔵', '7🔵'],
+    ['7🔴', '7🔴', '7🔴'],
+    ['7🟢', '7🟢', '7🟢'],
+    ['7🖤', '7🔵', '7🔴'],
+    ['BONUS🥇', 'BONUS🔵', 'BONUS🟢'],
+    ['BONUS🥇', 'BONUS🟢', 'BONUS⚫'],
+    ['BONUS🟢', 'BONUS🔴', 'BONUS🟣'],
+    ['7🖤', '7🟢', '7🔴'],
+    ['7🔵', '7🔴', '7🟢'],
+    ['🍒', '🍊', '🍏'],
+    ['🍌', '🍊', '🍒'],
+    ['🍏', '🍌', '🍒'],
+    ['7🖤', 'BONUS🥇', '7🖤'],
+    ['BONUS🟣', '7🔵', 'BONUS🟣'],
+    ['7🔵', 'BONUS🟢', '7🔴'],
+    ['BONUS🔴', '7🟢', 'BONUS⚫'],
+    ['7🔴', 'BONUS🔵', 'BONUS🟢'],
+    ['BONUS🟢', '7🖤', 'BONUS🟣'],
+    ['7🟢', 'BONUS🥇', '7🔴'],
+    ['BONUS🔵', 'BONUS🟢', 'BONUS⚫'],
+    ['BONUS🟣', '7🔵', 'BONUS🥇'],
+    ['BONUS🟢', '7🖤', '7🟢'],
+    ['7🔴', 'BONUS🟢', 'BONUS🟣'],
+    ['9', '9', '9'],
+    ['21', '21', '21'],
+    ['3', '3', '3'],
+    ['9', '21', '3'],
+    ['9', '9', '21'],
+    ['3', '3', '9'],
+    ['21', '21', '3'],
+    ['3', '9', '21'],
+    ['21', '9', '3'],
+    ['7🖤', 'BONUS🥇', '9'],
+    ['21', '🍊', 'BONUS⚫'],
+    ['7🔵', 'BONUS🟢', '3'],
+    ['🍒', '7🟢', 'BONUS🔵'],
+    ['BONUS🟣', '21', '🍌'],
+    ['3', '7🔴', 'BONUS🟣']
+];
 
 function spin() {
     if (balance < betAmount) {
@@ -12,27 +60,8 @@ function spin() {
     updateBalance();
 
     let results = [];
-    let randomNumber = Math.random() * 100;
-
-    // Define patterns with different probabilities
-    if (randomNumber < 50) {
-        results = ['🍏', '🍌', '🍒']; // 50% chance for Mixed Fruits
-    } else if (randomNumber < 70) {
-        results = ['🍒', '🍒', '🍒']; // 20% chance for 3x Cherries
-    } else if (randomNumber < 85) {
-        results = ['🍊', '🍊', '🍊']; // 15% chance for 3x Oranges
-    } else if (randomNumber < 95) {
-        results = ['🍏', '🍏', '🍏']; // 10% chance for 3x Apples
-    } else if (randomNumber < 96) {
-        results = ['🍌', '🍌', '🍌']; // 1% chance for 3x Bananas
-    } else if (randomNumber < 97) {
-        results = ['🍏', '🍌', '🍏']; // 1% chance for Mixed Fruits
-    } else if (randomNumber < 98) {
-        results = ['7🖤', '7🖤', '7🖤']; // 1% chance for 3x Black 7s
-    } else if (randomNumber < 99) {
-        results = ['7🔴', '7🔴', '7🔴']; // 1% chance for 3x Red 7s
-    } else {
-        results = ['7🔵', '7🔵', '7🔵']; // 1% chance for 3x Blue 7s
+    for (let i = 0; i < 12; i++) {
+        results.push(symbols[Math.floor(Math.random() * symbols.length)]);
     }
 
     updateSlots(results);
@@ -40,47 +69,85 @@ function spin() {
 }
 
 function updateSlots(results) {
-    document.getElementById('slot1').textContent = results[0];
-    document.getElementById('slot2').textContent = results[1];
-    document.getElementById('slot3').textContent = results[2];
+    for (let i = 0; i < 12; i++) {
+        document.getElementById(`slot${i + 1}`).textContent = results[i];
+    }
 }
 
 function checkWin(results) {
-    let resultText = document.getElementById('result');
+    let wins = {};
+    for (let i = 0; i < results.length; i += 3) {
+        let line = results.slice(i, i + 3);
+        let lineKey = line.join(' ');
 
-    if (results[0] === results[1] && results[1] === results[2]) {
-        if (results[0] === '7🖤') {
-            resultText.textContent = 'Jackpot! 🎉 You got 3x Black 7s! You win $10,000,000!';
-            balance += 10000000;
-        } else if (results[0] === '7🔵') {
-            resultText.textContent = 'You got 3x Blue 7s! You win $2,500,000!';
-            balance += 2500000;
-        } else if (results[0] === '7🔴') {
-            resultText.textContent = 'You got 3x Red 7s! You win $1,200,000!';
-            balance += 1200000;
-        } else if (results[0] === '7🟢') {
-            resultText.textContent = 'You got 3x Green 7s! You win $830,000!';
-            balance += 830000;
-        } else if (results[0] === '🍒') {
-            resultText.textContent = 'You got 3x Cherries! You win $10,000!';
-            balance += 10000;
-        } else if (results[0] === '🍊') {
-            resultText.textContent = 'You got 3x Oranges! You win $5,000!';
-            balance += 5000;
-        } else if (results[0] === '🍏') {
-            resultText.textContent = 'You got 3x Apples! You win $3,000!';
-            balance += 3000;
-        } else if (results[0] === '🍌') {
-            resultText.textContent = 'You got 3x Bananas! You win $2,000!';
-            balance += 2000;
+        if (wins[lineKey]) {
+            wins[lineKey]++;
+        } else {
+            wins[lineKey] = 1;
         }
-    } else {
-        resultText.textContent = 'Try again!';
     }
 
+    let winAmount = 0;
+
+    for (let key in wins) {
+        let count = wins[key];
+        let line = key.split(' ');
+
+        if (mixedVariations.some(variation => arraysEqual(variation, line))) {
+            if (line.includes('21')) {
+                winAmount += 50 * count;
+            } else if (line.includes('9')) {
+                winAmount += 30 * count;
+            } else if (line.includes('3')) {
+                winAmount += 20 * count;
+            } else {
+                winAmount += 10 * count;
+            }
+            alert(`You won with a mixed combination: ${key}!`);
+        } else if (line.every(symbol => symbol === line[0])) {
+            if (line[0] === 'BONUS🥇') {
+                winAmount += 100 * count;
+            } else if (line[0] === 'BONUS🔵') {
+                winAmount += 90 * count;
+            } else if (line[0] === 'BONUS🟢') {
+                winAmount += 80 * count;
+            } else if (line[0] === 'BONUS⚫') {
+                winAmount += 70 * count;
+            } else if (line[0] === 'BONUS🔴') {
+                winAmount += 60 * count;
+            } else if (line[0] === 'BONUS🟣') {
+                winAmount += 50 * count;
+            } else if (line[0] === '7🖤') {
+                winAmount += 40 * count;
+            } else if (line[0] === '7🔵') {
+                winAmount += 30 * count;
+            } else if (line[0] === '7🔴') {
+                winAmount += 20 * count;
+            } else if (line[0] === '7🟢') {
+                winAmount += 10 * count;
+            } else if (line[0] === '9') {
+                winAmount += 25 * count;
+            } else if (line[0] === '21') {
+                winAmount += 35 * count;
+            } else if (line[0] === '3') {
+                winAmount += 15 * count;
+            } else {
+                winAmount += 5 * count;
+            }
+            alert(`You won with 3x ${line[0]}!`);
+        }
+    }
+
+    balance += winAmount;
     updateBalance();
+}
+
+function arraysEqual(arr1, arr2) {
+    return JSON.stringify(arr1) === JSON.stringify(arr2);
 }
 
 function updateBalance() {
     document.getElementById('balance').textContent = balance;
 }
+
+document.getElementById('spinButton').addEventListener('click', spin);
