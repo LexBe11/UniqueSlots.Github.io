@@ -1,53 +1,56 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
+    text-align: center;
+    background-color: #E6E6FA
+;
     margin: 0;
+    padding: 0;
 }
 
-.slot-machine {
-    text-align: center;
+.container {
+    margin: 50px auto;
+    width: 80%;
+    max-width: 600px;
     background-color: #fff;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    width: 300px;
 }
 
 .slots {
-    display: flex;
-    justify-content: space-between;
-    margin: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .slot {
     font-size: 2rem;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #ddd;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
     border-radius: 5px;
 }
 
 button {
-    background-color: #4CAF50;
-    color: white;
     padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 1rem;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
-.info {
+#result {
+    font-size: 1.2rem;
     margin-top: 20px;
+}
+
+p {
+    font-size: 1rem;
 }
