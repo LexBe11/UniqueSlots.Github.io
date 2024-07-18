@@ -1,6 +1,8 @@
 let balance = 3500;
 let betAmount = 10;
 let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢', 'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴', 'BONUS🟣', '3', '9', '21'];
+let spinSound = new Audio('https://raw.githubusercontent.com/your-username/UniqueSlots.Github.io/main/spin.mp3'); // Replace with your actual raw URL
+let jackpotSound = new Audio('https://raw.githubusercontent.com/your-username/UniqueSlots.Github.io/main/jackpot.mp3'); // Replace with your actual raw URL
 
 function spin() {
     if (balance < betAmount) {
@@ -11,6 +13,9 @@ function spin() {
     balance -= betAmount;
     updateBalance();
 
+    // Play the spin sound
+    playSpinSound();
+
     let results = [];
     for (let i = 0; i < 12; i++) {
         results.push(symbols[Math.floor(Math.random() * symbols.length)]);
@@ -18,6 +23,17 @@ function spin() {
 
     updateSlots(results);
     checkWin(results);
+}
+
+function playSpinSound() {
+    let timesPlayed = 0;
+    let interval = setInterval(() => {
+        spinSound.play();
+        timesPlayed++;
+        if (timesPlayed >= 3) {
+            clearInterval(interval);
+        }
+    }, 500);
 }
 
 function updateSlots(results) {
@@ -39,6 +55,7 @@ function checkWin(results) {
     if (counts['7🖤'] >= 3) {
         winMessage = `Jackpot! 🎉 You got ${counts['7🖤']}x Black 7s! You win $10,000,000!`;
         winAmount += 10000000 * (counts['7🖤'] / 3);
+        jackpotSound.play();
     } else if (counts['7🔵'] >= 3) {
         winMessage = `You got ${counts['7🔵']}x Blue 7s! You win $2,500,000!`;
         winAmount += 2500000 * (counts['7🔵'] / 3);
