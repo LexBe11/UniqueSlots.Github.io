@@ -1,8 +1,8 @@
 let balance = 3500;
 let betAmount = 10;
 let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢', 'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴', 'BONUS🟣', '3', '9', '21'];
-let spinSound = new Audio('https://raw.githubusercontent.com/your-username/UniqueSlots.Github.io/main/spin.mp3'); // Replace with your actual raw URL
-let jackpotSound = new Audio('https://raw.githubusercontent.com/your-username/UniqueSlots.Github.io/main/jackpot.mp3'); // Replace with your actual raw URL
+let spinSound = new Audio('https://raw.githubusercontent.com/lexbe11/UniqueSlots.Github.io/main/spin.mp3'); // Replace with your actual raw URL
+let jackpotSound = new Audio('https://raw.githubusercontent.com/lexbe11/UniqueSlots.Github.io/main/jackpot.mp3'); // Replace with your actual raw URL
 
 function spin() {
     if (balance < betAmount) {
