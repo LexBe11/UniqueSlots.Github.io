@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #adminPanel {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        input[type="text"], input[type="number"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="adminPanel">
+        <h1>Admin Panel</h1>
+        <form id="adminLoginForm">
+            <label for="adminPasscode">Enter Passcode:</label>
+            <input type="password" id="adminPasscode" name="adminPasscode">
+            <button type="button" onclick="login()">Login</button>
+        </form>
+        
+        <form id="adminForm" class="hidden">
+            <label for="jackpotMultiplier">Jackpot Multiplier:</label>
+            <input type="number" id="jackpotMultiplier" name="jackpotMultiplier" value="10000000" min="1" step="100000">
+            
+            <label for="bonusMultiplier">Bonus Multiplier:</label>
+            <input type="number" id="bonusMultiplier" name="bonusMultiplier" value="75" min="1" step="1">
+            
+            <label for="balanceAmount">Set Balance Amount:</label>
+            <input type="number" id="balanceAmount" name="balanceAmount" min="0" step="1">
+
+            <label for="luckBoost">Luck Boost:</label>
+            <input type="checkbox" id="luckBoost" name="luckBoost">
+
+            <button type="button" onclick="updateSettings()">Update Settings</button>
+        </form>
+    </div>
+    <script>
+        const ADMIN_PASSCODE = '69420'; // Use a secure passcode
+
+        function login() {
+            const passcode = document.getElementById('adminPasscode').value;
+            if (passcode === ADMIN_PASSCODE) {
+                document.getElementById('adminLoginForm').classList.add('hidden');
+                document.getElementById('adminForm').classList.remove('hidden');
+            } else {
+                alert('Incorrect passcode!');
+            }
+        }
+
+        function updateSettings() {
+            const jackpotMultiplier = document.getElementById('jackpotMultiplier').value;
+            const bonusMultiplier = document.getElementById('bonusMultiplier').value;
+            const balanceAmount = document.getElementById('balanceAmount').value;
+            const luckBoost = document.getElementById('luckBoost').checked;
+
+            // Save settings to local storage or server
+            localStorage.setItem('jackpotMultiplier', jackpotMultiplier);
+            localStorage.setItem('bonusMultiplier', bonusMultiplier);
+            localStorage.setItem('balanceAmount', balanceAmount);
+            localStorage.setItem('luckBoost', luckBoost);
+
+            alert('Settings updated successfully!');
+
+            // Optionally update the game state immediately
+            applySettings();
+        }
+
+        function applySettings() {
+            jackpotMultiplier = localStorage.getItem('jackpotMultiplier') || 10000000;
+            bonusMultiplier = localStorage.getItem('bonusMultiplier') || 75;
+            const balanceAmount = localStorage.getItem('balanceAmount') || 0;
+            luckBoostActive = localStorage.getItem('luckBoost') === 'true';
+
+            // Update balance if specified
+            if (balanceAmount > 0) {
+                balance = parseInt(balanceAmount);
+                updateBalance();
+            }
+        }
+
+        // Load settings on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            applySettings();
+        });
+    </script>
+</body>
+</html>
