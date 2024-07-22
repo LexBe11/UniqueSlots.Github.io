@@ -17,13 +17,15 @@ function spin() {
         results.push(symbols[Math.floor(Math.random() * symbols.length)]);
     }
 
-    updateSlots(results);
-    checkWin(results);
+    displaySlotsSequentially(results, 0);
 }
 
-function updateSlots(results) {
-    for (let i = 0; i < 12; i++) {
-        document.getElementById(`slot${i + 1}`).textContent = results[i];
+function displaySlotsSequentially(results, index) {
+    if (index < results.length) {
+        document.getElementById(`slot${index + 1}`).textContent = results[index];
+        setTimeout(() => displaySlotsSequentially(results, index + 1), 1000);
+    } else {
+        checkWin(results);
     }
 }
 
