@@ -1,8 +1,7 @@
-let balance = 3500;
+let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 3500;
 let betAmount = 10;
 let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢', 'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴', 'BONUS🟣', '3', '9', '21'];
-let spinSound = new Audio('https://raw.githubusercontent.com/lexbe11/UniqueSlots.Github.io/main/spin.mp3'); // Replace with your actual raw URL
-let jackpotSound = new Audio('https://raw.githubusercontent.com/lexbe11/UniqueSlots.Github.io/main/jackpot.mp3'); // Replace with your actual raw URL
+let luckMultiplier = localStorage.getItem('luckMultiplier') ? parseFloat(localStorage.getItem('luckMultiplier')) : 1;
 
 function spin() {
     if (balance < betAmount) {
@@ -13,9 +12,6 @@ function spin() {
     balance -= betAmount;
     updateBalance();
 
-    // Play the spin sound
-    playSpinSound();
-
     let results = [];
     for (let i = 0; i < 12; i++) {
         results.push(symbols[Math.floor(Math.random() * symbols.length)]);
@@ -23,17 +19,6 @@ function spin() {
 
     updateSlots(results);
     checkWin(results);
-}
-
-function playSpinSound() {
-    let timesPlayed = 0;
-    let interval = setInterval(() => {
-        spinSound.play();
-        timesPlayed++;
-        if (timesPlayed >= 3) {
-            clearInterval(interval);
-        }
-    }, 500);
 }
 
 function updateSlots(results) {
@@ -55,7 +40,6 @@ function checkWin(results) {
     if (counts['7🖤'] >= 3) {
         winMessage = `Jackpot! 🎉 You got ${counts['7🖤']}x Black 7s! You win $10,000,000!`;
         winAmount += 10000000 * (counts['7🖤'] / 3);
-        jackpotSound.play();
     } else if (counts['7🔵'] >= 3) {
         winMessage = `You got ${counts['7🔵']}x Blue 7s! You win $2,500,000!`;
         winAmount += 2500000 * (counts['7🔵'] / 3);
@@ -78,41 +62,46 @@ function checkWin(results) {
         winMessage = `You got ${counts['🍌']}x Bananas! You win $2,000!`;
         winAmount += 2000 * (counts['🍌'] / 3);
     } else if (counts['3'] >= 3) {
-        winMessage = `You got ${counts['3']}x 3s! You win $300!`;
-        winAmount += 300 * (counts['3'] / 3);
+        winMessage = `You got ${counts['3']}x 3s! You win $21,000!`;
+        winAmount += 21000 * (counts['3'] / 3);
     } else if (counts['9'] >= 3) {
-        winMessage = `You got ${counts['9']}x 9s! You win $900!`;
-        winAmount += 900 * (counts['9'] / 3);
+        winMessage = `You got ${counts['9']}x 9s! You win $27,000!`;
+        winAmount += 27000 * (counts['9'] / 3);
     } else if (counts['21'] >= 3) {
-        winMessage = `You got ${counts['21']}x 21s! You win $2100!`;
-        winAmount += 2100 * (counts['21'] / 3);
-    }
-
-    if (counts['BONUS🥇'] >= 3) {
-        winMessage += ` Bonus! You got ${counts['BONUS🥇']}x Golden Bonus! Multiplier x75!`;
-        winAmount *= 75;
+        winMessage = `You got ${counts['21']}x 21s! You win $35,000!`;
+        winAmount += 35000 * (counts['21'] / 3);
+    } else if (counts['BONUS🥇'] >= 3) {
+        winMessage = `Jackpot Bonus! You got ${counts['BONUS🥇']}x Gold Bonuses! You win $35,000,000!`;
+        winAmount += 35000000 * (counts['BONUS🥇'] / 3);
     } else if (counts['BONUS🔵'] >= 3) {
-        winMessage += ` Bonus! You got ${counts['BONUS🔵']}x Blue Bonus! Multiplier x50!`;
-        winAmount *= 50;
+        winMessage = `You got ${counts['BONUS🔵']}x Blue Bonuses! You win $15,000,000!`;
+        winAmount += 15000000 * (counts['BONUS🔵'] / 3);
     } else if (counts['BONUS🟢'] >= 3) {
-        winMessage += ` Bonus! You got ${counts['BONUS🟢']}x Green Bonus! Multiplier x40!`;
-        winAmount *= 40;
+        winMessage = `You got ${counts['BONUS🟢']}x Green Bonuses! You win $12,500,000!`;
+        winAmount += 12500000 * (counts['BONUS🟢'] / 3);
     } else if (counts['BONUS⚫'] >= 3) {
-        winMessage += ` Bonus! You got ${counts['BONUS⚫']}x Black Bonus! Multiplier x30!`;
-        winAmount *= 30;
+        winMessage = `You got ${counts['BONUS⚫']}x Black Bonuses! You win $7,500,000!`;
+        winAmount += 7500000 * (counts['BONUS⚫'] / 3);
     } else if (counts['BONUS🔴'] >= 3) {
-        winMessage += ` Bonus! You got ${counts['BONUS🔴']}x Red Bonus! Multiplier x20!`;
-        winAmount *= 20;
+        winMessage = `You got ${counts['BONUS🔴']}x Red Bonuses! You win $5,500,000!`;
+        winAmount += 5500000 * (counts['BONUS🔴'] / 3);
     } else if (counts['BONUS🟣'] >= 3) {
-        winMessage += ` Bonus! You got ${counts['BONUS🟣']}x Purple Bonus! Multiplier x10!`;
-        winAmount *= 10;
+        winMessage = `You got ${counts['BONUS🟣']}x Purple Bonuses! You win $3,000,000!`;
+        winAmount += 3000000 * (counts['BONUS🟣'] / 3);
     }
 
-    balance += winAmount;
-    resultText.textContent = winMessage;
+    if (winAmount > 0) {
+        winAmount *= luckMultiplier;  // Apply luck multiplier
+        balance += winAmount;
+        resultText.textContent = winMessage;
+    } else {
+        resultText.textContent = 'Try again!';
+    }
+
     updateBalance();
 }
 
 function updateBalance() {
-    document.getElementById('balance').textContent = `Balance: $${balance}`;
+    document.getElementById('balance').textContent = `Balance: $${balance.toFixed(2)}`;
+    localStorage.setItem('balance', balance);
 }
