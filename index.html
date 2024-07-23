@@ -21,12 +21,12 @@
         }
         #slots {
             display: grid;
-            grid-template-columns: repeat(4, 50px);
+            grid-template-columns: repeat(4, 100px);
             gap: 10px;
         }
         .slot {
-            width: 50px;
-            height: 50px;
+            width: 100px;
+            height: 100px;
             border: 1px solid #000;
             display: flex;
             align-items: center;
@@ -40,15 +40,26 @@
             font-size: 16px;
             cursor: pointer;
         }
-        #adminPanelButton {
-            margin-top: 20px;
+        #adminButton {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
         }
-        #result {
+        #donations {
             margin-top: 20px;
-            font-size: 18px;
+        }
+        .donation-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -69,8 +80,15 @@
         <div id="slot12" class="slot"></div>
     </div>
     <button id="spinButton" onclick="spin()">Spin</button>
-    <button id="adminPanelButton" onclick="window.location.href='admin.html'">Admin Panel</button>
+    <button id="adminButton" onclick="showAdminPanel()">Admin Panel</button>
     <div id="result"></div>
+    <div id="donations">
+        <button class="donation-button" onclick="donate(5)">Donate $5</button>
+        <button class="donation-button" onclick="donate(10)">Donate $10</button>
+        <button class="donation-button" onclick="donate(20)">Donate $20</button>
+        <button class="donation-button" onclick="donate(50)">Donate $50</button>
+        <button class="donation-button" onclick="donate(100)">Donate $100</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
