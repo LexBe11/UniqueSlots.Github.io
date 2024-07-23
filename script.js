@@ -1,7 +1,6 @@
-let balance = localStorage.getItem('balance') ? parseFloat(localStorage.getItem('balance')) : 3500;
+let balance = 3500;
 let betAmount = 10;
 let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢', 'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴', 'BONUS🟣', '3', '9', '21'];
-let luckMultiplier = localStorage.getItem('luckMultiplier') ? parseFloat(localStorage.getItem('luckMultiplier')) : 1;
 
 function spin() {
     if (balance < betAmount) {
@@ -17,15 +16,24 @@ function spin() {
         results.push(symbols[Math.floor(Math.random() * symbols.length)]);
     }
 
-    displaySlotsSequentially(results, 0);
+    displaySlotsSequentially(results);
 }
 
-function displaySlotsSequentially(results, index) {
-    if (index < results.length) {
-        document.getElementById(`slot${index + 1}`).textContent = results[index];
-        setTimeout(() => displaySlotsSequentially(results, index + 1), 1000);
-    } else {
-        checkWin(results);
+function displaySlotsSequentially(results) {
+    let delay = 500;
+    results.forEach((result, index) => {
+        setTimeout(() => {
+            document.getElementById(`slot${index + 1}`).textContent = result;
+            if (index === results.length - 1) {
+                checkWin(results);
+            }
+        }, delay * (index + 1));
+    });
+}
+
+function updateSlots(results) {
+    for (let i = 0; i < 12; i++) {
+        document.getElementById(`slot${i + 1}`).textContent = results[i];
     }
 }
 
@@ -42,6 +50,7 @@ function checkWin(results) {
     if (counts['7🖤'] >= 3) {
         winMessage = `Jackpot! 🎉 You got ${counts['7🖤']}x Black 7s! You win $10,000,000!`;
         winAmount += 10000000 * (counts['7🖤'] / 3);
+        playSound('jackpot.mp3');
     } else if (counts['7🔵'] >= 3) {
         winMessage = `You got ${counts['7🔵']}x Blue 7s! You win $2,500,000!`;
         winAmount += 2500000 * (counts['7🔵'] / 3);
@@ -64,46 +73,69 @@ function checkWin(results) {
         winMessage = `You got ${counts['🍌']}x Bananas! You win $2,000!`;
         winAmount += 2000 * (counts['🍌'] / 3);
     } else if (counts['3'] >= 3) {
-        winMessage = `You got ${counts['3']}x 3s! You win $21,000!`;
-        winAmount += 21000 * (counts['3'] / 3);
+        winMessage = `You got ${counts['3']}x 3s! You win $300!`;
+        winAmount += 300 * (counts['3'] / 3);
     } else if (counts['9'] >= 3) {
-        winMessage = `You got ${counts['9']}x 9s! You win $27,000!`;
-        winAmount += 27000 * (counts['9'] / 3);
+        winMessage = `You got ${counts['9']}x 9s! You win $900!`;
+        winAmount += 900 * (counts['9'] / 3);
     } else if (counts['21'] >= 3) {
-        winMessage = `You got ${counts['21']}x 21s! You win $35,000!`;
-        winAmount += 35000 * (counts['21'] / 3);
-    } else if (counts['BONUS🥇'] >= 3) {
-        winMessage = `Jackpot Bonus! You got ${counts['BONUS🥇']}x Gold Bonuses! You win $35,000,000!`;
-        winAmount += 35000000 * (counts['BONUS🥇'] / 3);
+        winMessage = `You got ${counts['21']}x 21s! You win $2100!`;
+        winAmount += 2100 * (counts['21'] / 3);
+    }
+
+    if (counts['BONUS🥇'] >= 3) {
+        winMessage += ` Bonus! You got ${counts['BONUS🥇']}x Golden Bonus! Multiplier x75!`;
+        winAmount *= 75;
     } else if (counts['BONUS🔵'] >= 3) {
-        winMessage = `You got ${counts['BONUS🔵']}x Blue Bonuses! You win $15,000,000!`;
-        winAmount += 15000000 * (counts['BONUS🔵'] / 3);
+        winMessage += ` Bonus! You got ${counts['BONUS🔵']}x Blue Bonus! Multiplier x50!`;
+        winAmount *= 50;
     } else if (counts['BONUS🟢'] >= 3) {
-        winMessage = `You got ${counts['BONUS🟢']}x Green Bonuses! You win $12,500,000!`;
-        winAmount += 12500000 * (counts['BONUS🟢'] / 3);
+        winMessage += ` Bonus! You got ${counts['BONUS🟢']}x Green Bonus! Multiplier x25!`;
+        winAmount *= 25;
     } else if (counts['BONUS⚫'] >= 3) {
-        winMessage = `You got ${counts['BONUS⚫']}x Black Bonuses! You win $7,500,000!`;
-        winAmount += 7500000 * (counts['BONUS⚫'] / 3);
+        winMessage += ` Bonus! You got ${counts['BONUS⚫']}x Black Bonus! Multiplier x10!`;
+        winAmount *= 10;
     } else if (counts['BONUS🔴'] >= 3) {
-        winMessage = `You got ${counts['BONUS🔴']}x Red Bonuses! You win $5,500,000!`;
-        winAmount += 5500000 * (counts['BONUS🔴'] / 3);
+        winMessage += ` Bonus! You got ${counts['BONUS🔴']}x Red Bonus! Multiplier x5!`;
+        winAmount *= 5;
     } else if (counts['BONUS🟣'] >= 3) {
-        winMessage = `You got ${counts['BONUS🟣']}x Purple Bonuses! You win $3,000,000!`;
-        winAmount += 3000000 * (counts['BONUS🟣'] / 3);
+        winMessage += ` Bonus! You got ${counts['BONUS🟣']}x Purple Bonus! Multiplier x100!`;
+        winAmount *= 100;
     }
 
-    if (winAmount > 0) {
-        winAmount *= luckMultiplier;  // Apply luck multiplier
-        balance += winAmount;
-        resultText.textContent = winMessage;
-    } else {
-        resultText.textContent = 'Try again!';
-    }
-
+    balance += winAmount;
     updateBalance();
+    resultText.textContent = winMessage;
 }
 
 function updateBalance() {
-    document.getElementById('balance').textContent = `Balance: $${balance.toFixed(2)}`;
-    localStorage.setItem('balance', balance);
+    document.getElementById('balance').textContent = `Balance: $${balance}`;
+}
+
+function showAdminPanel() {
+    let passcode = prompt("Enter admin passcode:");
+    if (passcode === "your_secure_passcode") {
+        let action = prompt("Enter action: 1. Add Balance 2. Add Luck Boost");
+        if (action === "1") {
+            let amount = parseInt(prompt("Enter amount to add:"));
+            balance += amount;
+            updateBalance();
+        } else if (action === "2") {
+            let multiplier = parseFloat(prompt("Enter luck multiplier (e.g., 1.5):"));
+            betAmount /= multiplier;
+        }
+    } else {
+        alert("Incorrect passcode.");
+    }
+}
+
+function donate(amount) {
+    alert(`Thank you for donating $${amount}!`);
+    balance += amount;
+    updateBalance();
+}
+
+function playSound(soundFile) {
+    let audio = new Audio(soundFile);
+    audio.play();
 }
