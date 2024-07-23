@@ -40,26 +40,21 @@
             font-size: 16px;
             cursor: pointer;
         }
-        #adminButton {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
+        #adminPanelButton {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
             cursor: pointer;
         }
-        #donations {
+        #donationButtons {
             margin-top: 20px;
+            display: flex;
+            gap: 10px;
         }
-        .donation-button {
+        #donationButtons button {
             padding: 10px 20px;
             font-size: 16px;
-            margin: 5px;
             cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
         }
     </style>
 </head>
@@ -80,14 +75,14 @@
         <div id="slot12" class="slot"></div>
     </div>
     <button id="spinButton" onclick="spin()">Spin</button>
-    <button id="adminButton" onclick="showAdminPanel()">Admin Panel</button>
+    <button id="adminPanelButton" onclick="toggleAdminPanel()">Admin Panel</button>
     <div id="result"></div>
-    <div id="donations">
-        <button class="donation-button" onclick="donate(5)">Donate $5</button>
-        <button class="donation-button" onclick="donate(10)">Donate $10</button>
-        <button class="donation-button" onclick="donate(20)">Donate $20</button>
-        <button class="donation-button" onclick="donate(50)">Donate $50</button>
-        <button class="donation-button" onclick="donate(100)">Donate $100</button>
+    <div id="donationButtons">
+        <button onclick="donate(5)">Donate $5</button>
+        <button onclick="donate(10)">Donate $10</button>
+        <button onclick="donate(20)">Donate $20</button>
+        <button onclick="donate(50)">Donate $50</button>
+        <button onclick="donate(100)">Donate $100</button>
     </div>
     <script src="script.js"></script>
 </body>
