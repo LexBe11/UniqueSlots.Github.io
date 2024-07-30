@@ -6,38 +6,27 @@ body {
     padding: 0;
 }
 
-.container {
-    margin: 50px auto;
-    width: 80%;
-    max-width: 800px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
 #balance {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-.slots {
+#slots {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 80px);
+    gap: 5px;
     margin-bottom: 20px;
 }
 
 .slot {
     font-size: 2rem;
-    padding: 20px;
+    padding: 15px;
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     border-radius: 5px;
-    color: #000; /* Default text color */
 }
 
-#spinButton, #adminPanelButton, #donationButtons button {
+button {
     padding: 10px 20px;
     font-size: 1rem;
     background-color: #007bff;
@@ -45,10 +34,9 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 5px;
 }
 
-#spinButton:hover, #adminPanelButton:hover, #donationButtons button:hover {
+button:hover {
     background-color: #0056b3;
 }
 
@@ -57,6 +45,9 @@ body {
     margin-top: 20px;
 }
 
-button {
-    margin-top: 10px;
+#donationButtons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }
