@@ -1,121 +1,121 @@
 let balance = 3500;
-let betAmount = 10;
-let symbols = ['🍒', '🍊', '🍏', '🍌', '7🖤', '7🔵', '7🔴', '7🟢', 'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴', 'BONUS🟣', '3', '9', '21'];
-
-// Spin sound (replace with actual URL if you have a spin sound)
-let spinSound = new Audio('https://drive.google.com/uc?export=download&id=1dtYmJobuS87AADUhQF6oadQfo7RHufFd');
-
-// Jackpot sound (convert from YouTube link and host it somewhere)
-let jackpotSound = new Audio('https://drive.google.com/uc?export=download&id=1oukLH1PLUJxRyKJ_0TLkxaEfF-n6Dl-a'); // Replace with actual URL
-
-// Win sound (convert from YouTube link and host it somewhere)
-let winSound = new Audio('https://drive.google.com/uc?export=download&id=1zcXdkTkZYLUGoDW0OT_tZl7bSZCvInpA'); // Replace with actual URL
-
-let reelLines = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11], // Horizontal lines
-    [0, 4, 8], [3, 7, 11], // Diagonal lines
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], [6, 9, 10] // Vertical lines
+const jackpotValues = {
+    'red': 1000000,        // Red 7
+    'green': 1500000,      // Green 7
+    'blue': 2000000,       // Blue 7
+    'yellow': 2500000,     // Yellow 7
+    'purple': 3000000,     // Purple 7
+    'orange': 3500000,     // Orange 7
+    'pink': 4000000,       // Pink 7
+    'black': 178223922     // Black 7 (rarest)
+};
+const slotSymbols = [
+    '🍒', '🍋', '🍊', '🍉', '🍇', '🔔', '⭐', '7️⃣', 'BAR', '🍍', '🍎', '🍌', '🍓', '🥝', '🍈', '🍒', '🍋',
+    {symbol: '7️⃣', color: 'red', probability: 0.10},  // Red 7
+    {symbol: '7️⃣', color: 'green', probability: 0.10},  // Green 7
+    {symbol: '7️⃣', color: 'blue', probability: 0.10},  // Blue 7
+    {symbol: '7️⃣', color: 'yellow', probability: 0.10},  // Yellow 7
+    {symbol: '7️⃣', color: 'purple', probability: 0.10},  // Purple 7
+    {symbol: '7️⃣', color: 'orange', probability: 0.10},  // Orange 7
+    {symbol: '7️⃣', color: 'pink', probability: 0.10},  // Pink 7
+    {symbol: '7️⃣', color: 'black', probability: 0.001}  // Black 7
 ];
+const slots = Array.from({ length: 12 }, (_, i) => document.getElementById(`slot${i + 1}`));
+
+function getRandomSymbol() {
+    const randomNum = Math.random();
+    let cumulativeProbability = 0;
+
+    for (const symbol of slotSymbols) {
+        if (typeof symbol === 'object') {
+            cumulativeProbability += symbol.probability;
+            if (randomNum < cumulativeProbability) {
+                return symbol;
+            }
+        } else {
+            cumulativeProbability += 0.05;  // Default probability for other symbols
+            if (randomNum < cumulativeProbability) {
+                return {symbol: symbol, color: 'default'};
+            }
+        }
+    }
+    return {symbol: '🍒', color: 'default'};  // Fallback symbol
+}
 
 function spin() {
-    if (balance < betAmount) {
-        alert("Not enough balance to place the bet.");
+    if (balance <= 0) {
+        alert("Out of balance!");
         return;
     }
 
-    balance -= betAmount;
-    updateBalance();
+    // Deduct the spin cost (assuming each spin costs $10)
+    balance -= 10;
+    document.getElementById('balance').innerText = `Balance: $${balance}`;
 
-    let results = [];
-    for (let i = 0; i < 12; i++) {
-        results.push(symbols[Math.floor(Math.random() * symbols.length)]);
+    // Populate the slots with random symbols
+    const results = slots.map(slot => {
+        const {symbol, color} = getRandomSymbol();
+        slot.innerText = symbol;
+        slot.style.color = color;  // Apply color if applicable
+        return {symbol, color};
+    });
+
+    // Check for winning combinations
+    const winningSymbols = checkForWinningCombinations(results);
+    if (winningSymbols.length > 0) {
+        const payout = calculatePayout(winningSymbols);
+        balance += payout;
+        document.getElementById('balance').innerText = `Balance: $${balance}`;
+        document.getElementById('result').innerText = `You won $${payout.toLocaleString()} with ${winningSymbols.map(s => s.symbol).join(', ')}!`;
+        playSound('win');
+    } else {
+        document.getElementById('result').innerText = 'No win. Try again!';
     }
-
-    spinSound.play();
-    updateSlotsSequentially(results);
-    setTimeout(() => checkWin(results), 6000);
 }
 
-function updateSlotsSequentially(results) {
-    results.forEach((symbol, index) => {
-        setTimeout(() => {
-            document.getElementById(`slot${index + 1}`).textContent = symbol;
-            document.getElementById(`slot${index + 1}`).classList.remove('highlight');
-        }, index * 500);
+function checkForWinningCombinations(results) {
+    const symbolCounts = {};
+    results.forEach(({symbol}) => {
+        if (!symbolCounts[symbol]) {
+            symbolCounts[symbol] = 0;
+        }
+        symbolCounts[symbol]++;
     });
+
+    // Collect symbols that appear 3 or more times
+    return Object.keys(symbolCounts).filter(symbol => symbolCounts[symbol] >= 3).map(symbol => ({symbol, count: symbolCounts[symbol]}));
 }
 
-function checkWin(results) {
-    let resultText = document.getElementById('result');
-    let counts = {};
-    results.forEach(symbol => {
-        counts[symbol] = (counts[symbol] || 0) + 1;
-    });
-
-    let winMessage = 'Try again!';
-    let winAmount = 0;
-    let hasJackpot = false;
-    let winningLine = [];
-
-    reelLines.forEach(line => {
-        let symbolsInLine = line.map(index => results[index]);
-        let countsInLine = symbolsInLine.reduce((acc, symbol) => {
-            acc[symbol] = (acc[symbol] || 0) + 1;
-            return acc;
-        }, {});
-
-        for (let symbol in countsInLine) {
-            if (countsInLine[symbol] >= 3) {
-                if (symbol === '7🖤') {
-                    winMessage = `Jackpot! 🎉 You got ${countsInLine[symbol]}x Black 7s! You win $10,000,000!`;
-                    winAmount += 10000000 * (countsInLine[symbol] / 3);
-                    hasJackpot = true;
-                    winningLine = line;
-                } else if (symbol === '7🔵') {
-                    winMessage = `You got ${countsInLine[symbol]}x Blue 7s! You win $2,500,000!`;
-                    winAmount += 2500000 * (countsInLine[symbol] / 3);
-                    winningLine = line;
-                } else if (symbol === '7🔴') {
-                    winMessage = `You got ${countsInLine[symbol]}x Red 7s! You win $1,000,000!`;
-                    winAmount += 1000000 * (countsInLine[symbol] / 3);
-                    winningLine = line;
-                } else if (symbol === '7🟢') {
-                    winMessage = `You got ${countsInLine[symbol]}x Green 7s! You win $500,000!`;
-                    winAmount += 500000 * (countsInLine[symbol] / 3);
-                    winningLine = line;
-                } else if (symbol.startsWith('BONUS')) {
-                    winMessage = `You got ${countsInLine[symbol]}x ${symbol}! You win $50,000!`;
-                    winAmount += 50000 * (countsInLine[symbol] / 3);
-                    winningLine = line;
+function calculatePayout(winningSymbols) {
+    let payout = 0;
+    winningSymbols.forEach(({symbol, count}) => {
+        // Define payout values for symbols
+        switch (symbol) {
+            case '7️⃣':
+                const color = winningSymbols.find(s => s.symbol === symbol).color;
+                payout += jackpotValues[color] || 0;
+                break;
+            case 'BAR':
+                if (count >= 3) {
+                    payout += 50000 * count;  // Example payout for BARs, multiplied by count
                 }
-                line.forEach(index => {
-                    document.getElementById(`slot${index + 1}`).classList.add('highlight');
-                });
-            }
+                break;
+            // Add more cases for other symbols as needed
+            default:
+                if (count >= 3) {
+                    payout += 10000 * count;  // Example payout for other symbols, multiplied by count
+                }
         }
     });
+    return payout;
+}
 
-    if (hasJackpot) {
-        jackpotSound.play();
-    } else if (winAmount > 0) {
-        winSound.play();
+function playSound(type) {
+    let sound;
+    if (type === 'win') {
+        sound = new Audio('path/to/win-sound.mp3');
+    } else if (type === 'jackpot') {
+        sound = new Audio('path/to/jackpot-sound.mp3');
     }
-
-    balance += winAmount;
-    resultText.textContent = winMessage;
-    updateBalance();
-}
-
-function updateBalance() {
-    document.getElementById('balance').textContent = `Balance: $${balance}`;
-}
-
-function donate(amount) {
-    balance += amount;
-    updateBalance();
-    alert(`Thank you for your donation of $${amount}!`);
-}
-
-function toggleAdminPanel() {
-    alert("Admin panel feature is not implemented yet.");
+    sound.play();
 }
