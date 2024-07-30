@@ -1,8 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background-color: #E6E6FA
-;
+    background-color: #E6E6FA;
     margin: 0;
     padding: 0;
 }
@@ -30,6 +29,11 @@ body {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+.highlight {
+    background-color: yellow; /* Or any other color/style you prefer */
+    border: 2px solid red; /* Or any other style */
 }
 
 button {
