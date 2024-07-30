@@ -7,38 +7,39 @@ body {
 }
 
 .container {
-    margin: 20px auto;
-    width: 90%;
-    max-width: 400px;
+    margin: 50px auto;
+    width: 80%;
+    max-width: 800px;
     background-color: #fff;
-    padding: 10px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#balance {
+    font-size: 24px;
+    margin-bottom: 20px;
 }
 
 .slots {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 5px;
-    margin-bottom: 10px;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .slot {
-    font-size: 1.5rem;
-    padding: 10px;
+    font-size: 2rem;
+    padding: 20px;
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     border-radius: 5px;
+    color: #000; /* Default text color */
 }
 
-.highlight {
-    background-color: yellow; /* Or any other color/style you prefer */
-    border: 2px solid red; /* Or any other style */
-}
-
-button {
-    padding: 5px 10px;
-    font-size: 0.8rem;
+#spinButton, #adminPanelButton, #donationButtons button {
+    padding: 10px 20px;
+    font-size: 1rem;
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -47,15 +48,15 @@ button {
     margin: 5px;
 }
 
-button:hover {
+#spinButton:hover, #adminPanelButton:hover, #donationButtons button:hover {
     background-color: #0056b3;
 }
 
 #result {
-    font-size: 1rem;
-    margin-top: 10px;
+    font-size: 1.2rem;
+    margin-top: 20px;
 }
 
-p {
-    font-size: 0.8rem;
+button {
+    margin-top: 10px;
 }
