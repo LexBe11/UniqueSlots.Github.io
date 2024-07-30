@@ -5,62 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slot Machine</title>
     <style>
-        body { 
-            background-color: #A9A9A9; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            height: 100vh; 
-            margin: 0; 
-            font-family: Arial, sans-serif; 
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #E6E6FA;
+            margin: 0;
+            padding: 0;
         }
-        #balance { 
-            font-size: 24px; 
-            margin-bottom: 20px; 
+
+        .container {
+            margin: 50px auto;
+            width: 80%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        #slots { 
-            display: grid; 
-            grid-template-columns: repeat(4, 100px); 
-            gap: 10px; 
+
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .slot { 
-            width: 100px; 
-            height: 100px; 
-            border: 1px solid #000; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 24px; 
-            background-color: #FFF; 
+
+        .slot {
+            font-size: 2rem;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 5px;
         }
-        #spinButton { 
-            margin-top: 20px; 
-            padding: 10px 20px; 
-            font-size: 16px; 
-            cursor: pointer; 
+
+        .highlight {
+            background-color: yellow; /* Or any other color/style you prefer */
+            border: 2px solid red; /* Or any other style */
         }
-        #adminPanelButton { 
-            margin-top: 10px; 
-            padding: 5px 10px; 
-            font-size: 14px; 
-            cursor: pointer; 
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        #donationButtons { 
-            margin-top: 20px; 
-            display: flex; 
-            gap: 10px; 
+
+        button:hover {
+            background-color: #0056b3;
         }
-        #donationButtons button { 
-            padding: 10px 20px; 
-            font-size: 16px; 
-            cursor: pointer; 
+
+        #result {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        p {
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
     <div id="balance">Balance: $3500</div>
-    <div id="slots">
+    <div class="slots" id="slots">
         <div id="slot5" class="slot"></div>
         <div id="slot6" class="slot"></div>
         <div id="slot7" class="slot"></div>
