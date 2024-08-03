@@ -1,12 +1,10 @@
-let balance = 3500;
-let betAmount = 10;
-let symbols = [
+const symbols = [
     '🍒', '🍊', '🍏', '🍌', '🍇', '🍓', '🍍', '🥭', '🍈',
     '7🖤', '7🔵', '7🔴', '7🟢',
     'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴'
 ];
 
-let payouts = {
+const payouts = {
     '7🖤': 178223922,
     '7🔵': 50000000,
     '7🔴': 20000000,
@@ -27,9 +25,12 @@ let payouts = {
     'BONUS🔴': 20000000
 };
 
-let spinSound = new Audio('https://drive.google.com/uc?export=download&id=1dtYmJobuS87AADUhQF6oadQfo7RHufFd');
-let jackpotSound = new Audio('https://drive.google.com/uc?export=download&id=1oukLH1PLUJxRyKJ_0TLkxaEfF-n6Dl-a');
-let winSound = new Audio('https://drive.google.com/uc?export=download&id=1zcXdkTkZYLUGoDW0OT_tZl7bSZCvInpA');
+let balance = parseFloat(localStorage.getItem('balance')) || 150;
+const betAmount = 10;
+
+const spinSound = new Audio('https://drive.google.com/uc?export=download&id=1dtYmJobuS87AADUhQF6oadQfo7RHufFd');
+const jackpotSound = new Audio('https://drive.google.com/uc?export=download&id=1oukLH1PLUJxRyKJ_0TLkxaEfF-n6Dl-a');
+const winSound = new Audio('https://drive.google.com/uc?export=download&id=1zcXdkTkZYLUGoDW0OT_tZl7bSZCvInpA');
 
 function spin() {
     if (balance < betAmount) {
@@ -41,13 +42,13 @@ function spin() {
     updateBalance();
 
     let results = [];
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 3; i++) {
         results.push(symbols[Math.floor(Math.random() * symbols.length)]);
     }
 
     spinSound.play();
     updateSlotsSequentially(results);
-    setTimeout(() => checkWin(results), 6000);
+    setTimeout(() => checkWin(results), 3000);
 }
 
 function updateSlotsSequentially(results) {
@@ -68,11 +69,22 @@ function checkWin(results) {
     let winMessage = 'Try again!';
     let winAmount = 0;
 
+    // Get luck multiplier if active
+    let multiplier = parseFloat(localStorage.getItem('luckMultiplier')) || 1;
+    let expiry = parseFloat(localStorage.getItem('multiplierExpiry')) || 0;
+    let currentTime = new Date().getTime();
+    
+    if (currentTime > expiry) {
+        localStorage.removeItem('luckMultiplier');
+        localStorage.removeItem('multiplierExpiry');
+        multiplier = 1;
+    }
+
     // Check for patterns and payouts
     for (let symbol of symbols) {
         if (counts[symbol] >= 3) {
-            winMessage = `You got ${counts[symbol]}x ${symbol}! You win $${payouts[symbol]}!`;
-            winAmount = payouts[symbol];
+            winAmount = payouts[symbol] * multiplier;
+            winMessage = `You got ${counts[symbol]}x ${symbol}! You win $${winAmount}!`;
             break;
         }
     }
@@ -89,16 +101,6 @@ function checkWin(results) {
 }
 
 function updateBalance() {
-    document.getElementById('balance').textContent = `Balance: $${balance}`;
-}
-
-function donate(amount) {
-    balance += amount;
-    updateBalance();
-    alert(`Thank you for your donation of $${amount}!`);
-}
-
-function toggleAdminPanel() {
-    // Placeholder function for admin panel toggle
-    alert('Admin panel functionality not yet implemented.');
+    localStorage.setItem('balance', balance);
+    document.getElementById('balance').textContent = `$${balance}`;
 }
