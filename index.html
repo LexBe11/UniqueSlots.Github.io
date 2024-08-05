@@ -3,63 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fruits O' Clock</title>
-    <style>
-        body {
-            background-color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        #slot-machine {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        #slot-machine div {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            border: 1px solid #000;
-            background-color: #fff;
-        }
-        #result {
-            margin-top: 20px;
-            font-size: 1.5em;
-        }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            cursor: pointer;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Custom Casino Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Fruits O' Clock</h1>
-    <div id="slot-machine">
-        <div id="slot1"></div>
-        <div id="slot2"></div>
-        <div id="slot3"></div>
-    </div>
-    <div id="result">Balance: $<span id="balance">150</span></div>
-    <button onclick="spin()">Spin</button>
-    <script src="slot-machine.js"></script>
-    <script src="admin-panel.js"></script>
+    <header>
+        <h1>Custom Casino Game</h1>
+        <nav>
+            <ul>
+                <li><a href="#slots">Slots</a></li>
+                <li><a href="#blackjack">Blackjack</a></li>
+                <li><a href="#poker">Poker</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Slots Section -->
+        <section id="slots">
+            <h2>Slots</h2>
+            <input type="number" id="slots-bet" placeholder="Enter your bet" min="1">
+            <button onclick="spin()">Spin</button>
+            <div id="slots-reels">
+                <div id="slot1" class="slot"></div>
+                <div id="slot2" class="slot"></div>
+                <div id="slot3" class="slot"></div>
+            </div>
+            <div id="slots-result"></div>
+            <div id="balance">Balance: $150</div>
+        </section>
+
+        <!-- Blackjack Section -->
+        <section id="blackjack">
+            <h2>Blackjack</h2>
+            <button onclick="startBlackjack()">Start Game</button>
+            <button onclick="hit()">Hit</button>
+            <button onclick="stand()">Stand</button>
+            <div id="blackjack-player-cards"></div>
+            <div id="blackjack-dealer-cards"></div>
+            <div id="blackjack-result"></div>
+        </section>
+
+        <!-- Poker Section -->
+        <section id="poker">
+            <h2>Poker</h2>
+            <button onclick="startPoker()">Start Game</button>
+            <button onclick="bet()">Bet</button>
+            <button onclick="fold()">Fold</button>
+            <div id="poker-game"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Custom Casino Game</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+    <script src="blackjack.js"></script>
+    <script src="poker.js"></script>
 </body>
 </html>
