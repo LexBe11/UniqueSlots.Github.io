@@ -1,44 +1,23 @@
-const symbols = [
-    '🍒', '🍊', '🍏', '🍌', '🍇', '🍓', '🍍', '🥭', '🍈',
-    '7🖤', '7🔵', '7🔴', '7🟢',
-    'BONUS🥇', 'BONUS🔵', 'BONUS🟢', 'BONUS⚫', 'BONUS🔴'
-];
-
-const payouts = {
-    '7🖤': 178223922,
-    '7🔵': 50000000,
-    '7🔴': 20000000,
-    '7🟢': 10000000,
-    '🍒': 10000,
-    '🍊': 5000,
-    '🍏': 3000,
-    '🍌': 2000,
-    '🍇': 4000,
-    '🍓': 6000,
-    '🍍': 7000,
-    '🥭': 8000,
-    '🍈': 9000,
-    'BONUS🥇': 75000000,
-    'BONUS🔵': 50000000,
-    'BONUS🟢': 40000000,
-    'BONUS⚫': 30000000,
-    'BONUS🔴': 20000000
-};
-
+const symbols = ['💀', '🌸', '🍒', 'BAR', '7️⃣'];
+const payouts = { '7️⃣': 5000, 'BAR': 1000, '🌸': 500, '💀': 200 };
 let balance = parseFloat(localStorage.getItem('balance')) || 150;
 const betAmount = 10;
-
-const spinSound = new Audio('https://drive.google.com/uc?export=download&id=1dtYmJobuS87AADUhQF6oadQfo7RHufFd');
-const jackpotSound = new Audio('https://drive.google.com/uc?export=download&id=1oukLH1PLUJxRyKJ_0TLkxaEfF-n6Dl-a');
-const winSound = new Audio('https://drive.google.com/uc?export=download&id=1zcXdkTkZYLUGoDW0OT_tZl7bSZCvInpA');
+const spinSound = new Audio('https://example.com/spin-sound.mp3'); // Replace with a valid URL
+const winSound = new Audio('https://example.com/win-sound.mp3'); // Replace with a valid URL
 
 function spin() {
-    if (balance < betAmount) {
+    const slotsBet = parseFloat(document.getElementById('slots-bet').value);
+    if (isNaN(slotsBet) || slotsBet <= 0) {
+        alert("Please enter a valid bet amount.");
+        return;
+    }
+    
+    if (balance < slotsBet) {
         alert("Not enough balance to place the bet.");
         return;
     }
 
-    balance -= betAmount;
+    balance -= slotsBet;
     updateBalance();
 
     let results = [];
@@ -60,7 +39,7 @@ function updateSlotsSequentially(results) {
 }
 
 function checkWin(results) {
-    let resultText = document.getElementById('result');
+    let resultText = document.getElementById('slots-result');
     let counts = {};
     results.forEach(symbol => {
         counts[symbol] = (counts[symbol] || 0) + 1;
@@ -69,21 +48,9 @@ function checkWin(results) {
     let winMessage = 'Try again!';
     let winAmount = 0;
 
-    // Get luck multiplier if active
-    let multiplier = parseFloat(localStorage.getItem('luckMultiplier')) || 1;
-    let expiry = parseFloat(localStorage.getItem('multiplierExpiry')) || 0;
-    let currentTime = new Date().getTime();
-    
-    if (currentTime > expiry) {
-        localStorage.removeItem('luckMultiplier');
-        localStorage.removeItem('multiplierExpiry');
-        multiplier = 1;
-    }
-
-    // Check for patterns and payouts
     for (let symbol of symbols) {
         if (counts[symbol] >= 3) {
-            winAmount = payouts[symbol] * multiplier;
+            winAmount = payouts[symbol];
             winMessage = `You got ${counts[symbol]}x ${symbol}! You win $${winAmount}!`;
             break;
         }
@@ -102,5 +69,8 @@ function checkWin(results) {
 
 function updateBalance() {
     localStorage.setItem('balance', balance);
-    document.getElementById('balance').textContent = `$${balance}`;
+    document.getElementById('balance').textContent = `Balance: $${balance}`;
 }
+
+// Initialize balance display
+updateBalance();
