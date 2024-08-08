@@ -3,60 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Casino Game</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Slot Machine Game</title>
 </head>
 <body>
-    <header>
-        <h1>Custom Casino Game</h1>
-        <nav>
-            <ul>
-                <li><a href="#slots">Slots</a></li>
-                <li><a href="#blackjack">Blackjack</a></li>
-                <li><a href="#poker">Poker</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <!-- Slots Section -->
-        <section id="slots">
-            <h2>Slots</h2>
-            <input type="number" id="slots-bet" placeholder="Enter your bet" min="1">
+    <div class="container">
+        <h1>Slot Machine Game</h1>
+        <div class="balance">
+            <p>Balance: $<span id="balance">150</span></p>
+        </div>
+        <div class="slot-machine">
+            <div class="slot" id="slot1"></div>
+            <div class="slot" id="slot2"></div>
+            <div class="slot" id="slot3"></div>
             <button onclick="spin()">Spin</button>
-            <div id="slots-reels">
-                <div id="slot1" class="slot"></div>
-                <div id="slot2" class="slot"></div>
-                <div id="slot3" class="slot"></div>
-            </div>
-            <div id="slots-result"></div>
-            <div id="balance">Balance: $150</div>
-        </section>
-
-        <!-- Blackjack Section -->
-        <section id="blackjack">
-            <h2>Blackjack</h2>
-            <button onclick="startBlackjack()">Start Game</button>
-            <button onclick="hit()">Hit</button>
-            <button onclick="stand()">Stand</button>
-            <div id="blackjack-player-cards"></div>
-            <div id="blackjack-dealer-cards"></div>
-            <div id="blackjack-result"></div>
-        </section>
-
-        <!-- Poker Section -->
-        <section id="poker">
-            <h2>Poker</h2>
-            <button onclick="startPoker()">Start Game</button>
-            <button onclick="bet()">Bet</button>
-            <button onclick="fold()">Fold</button>
-            <div id="poker-game"></div>
-        </section>
-    </main>
-
-
-    <script src="scripts.js"></script>
-    <script src="blackjack.js"></script>
-    <script src="poker.js"></script>
+    </div>
 </body>
 </html>
