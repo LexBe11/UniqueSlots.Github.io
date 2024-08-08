@@ -4,6 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slot Machine Game</title>
+    <!-- Include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
+    <!-- Your Firebase configuration -->
+    <script>
+      var firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "your-project.firebaseapp.com",
+        projectId: "your-project",
+        storageBucket: "your-project.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "your-app-id"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>
+    <!-- Your custom JavaScript -->
+    <script src="script.js" defer></script>
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -16,6 +37,10 @@
             <div class="slot" id="slot2"></div>
             <div class="slot" id="slot3"></div>
             <button onclick="spin()">Spin</button>
+        </div>
+        <p id="result"></p>
+        <button onclick="signInWithGoogle()">Sign in with Google</button>
+        <p id="user-info"></p>
     </div>
 </body>
 </html>
