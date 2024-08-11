@@ -4,43 +4,295 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slot Machine Game</title>
-    <!-- Include Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js"></script>
-    <!-- Your Firebase configuration -->
-    <script>
-      var firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "your-project.firebaseapp.com",
-        projectId: "your-project",
-        storageBucket: "your-project.appspot.com",
-        messagingSenderId: "123456789",
-        appId: "your-app-id"
-      };
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-    </script>
-    <!-- Your custom JavaScript -->
-    <script src="script.js" defer></script>
-    <!-- Your CSS -->
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #003300; /* Deep green background color */
+        }
+
+        .container {
+            position: relative;
+            width: 512px;
+            height: 512px;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .slot-machine {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .reel-container {
+            position: absolute;
+            top: 50px;
+            left: 100px;
+            width: 300px;
+            height: 270px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .reel {
+            width: 90px;
+            height: 270px;
+            border: 2px solid #fff; /* White border for reels */
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            background-color: #333; /* Dark background for reels */
+        }
+
+        .reel-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .reel-content .symbol {
+            font-size: 40px;
+            line-height: 90px; /* Adjust to center symbols */
+        }
+
+        .bet-options {
+            position: absolute;
+            top: 470px;
+            left: 50px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .bet-options button {
+            font-size: 18px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .spin-button {
+            position: absolute;
+            top: 300px;
+            left: 50px;
+            padding: 15px 30px;
+            font-size: 20px;
+            background-color: #ff9900; /* Orange color for button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s;
+        }
+
+        .spin-button:hover {
+            background-color: #ff6600;
+        }
+
+        .balance-section {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .bet-section {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>Slot Machine Game</h1>
-        <div class="balance">
-            <p>Balance: $<span id="balance">150</span></p>
-        </div>
+        <!-- Slot Machine Background Image -->
+        <img src="https://th.bing.com/th/id/OIG1.BYe0st4LgBKpHpTyJvsZ?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="Slot Machine Background" class="background-image">
+
+        <!-- Slot Machine Display -->
         <div class="slot-machine">
-            <div class="slot" id="slot1"></div>
-            <div class="slot" id="slot2"></div>
-            <div class="slot" id="slot3"></div>
-            <button onclick="spin()">Spin</button>
+            <div class="reel-container">
+                <div class="reel">
+                    <div class="reel-content" id="reel1">
+                        <div class="symbol">🍒</div>
+                        <div class="symbol">🍊</div>
+                        <div class="symbol">🍏</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="reel2">
+                        <div class="symbol">7🟢</div>
+                        <div class="symbol">🍌</div>
+                        <div class="symbol">🍇</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="reel3">
+                        <div class="symbol">🍓</div>
+                        <div class="symbol">🍍</div>
+                        <div class="symbol">🥭</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BALANCE Section -->
+            <div class="balance-section">
+                <p>$<span id="balance">350</span></p>
+            </div>
+
+            <!-- BET Section -->
+            <div class="bet-section">
+                <p>Bet: $<span id="betAmount">1</span></p>
+            </div>
+
+            <!-- Betting Options -->
+            <div class="bet-options">
+                <button onclick="setBet(1)">1</button>
+                <button onclick="setBet(5)">5</button>
+                <button onclick="setBet(10)">10</button>
+                <button onclick="setBet(20)">20</button>
+                <button onclick="setBet(100)">100</button>
+                <button onclick="setBet(1000)">1000</button>
+            </div>
+
+            <!-- Spin Button -->
+            <button class="spin-button" onclick="spin()">Spin</button>
         </div>
-        <p id="result"></p>
-        <button onclick="signInWithGoogle()">Sign in with Google</button>
-        <p id="user-info"></p>
     </div>
+
+    <script>
+        let balance = 350; // Initial balance
+        let betAmount = 1; // Initial bet amount
+
+        function updateBalance() {
+            document.getElementById('balance').innerText = balance;
+        }
+
+        function setBet(amount) {
+            betAmount = amount;
+            document.getElementById('betAmount').innerText = betAmount;
+        }
+
+        function spin() {
+            if (balance < betAmount) {
+                alert('Not enough balance to spin!');
+                return;
+            }
+
+            balance -= betAmount;
+            updateBalance();
+
+            const symbols = [
+                '🍒', '🍊', '🍏', '🍌', '🍇', '🍉', '🍓', '🍍', 
+                '🍑', '🥭', '🥥', '🍈', '☯️', '🐉', 
+                '7🖤', '7🔴', '7🔵', '7🟢', '7🟠', '7🟣', 
+                '7☯️'
+            ];
+
+            // Adjust symbol probabilities
+            const weightedSymbols = [
+                ...Array(10).fill('🍒'),
+                ...Array(8).fill('🍊'),
+                ...Array(8).fill('🍏'),
+                ...Array(6).fill('🍌'),
+                ...Array(6).fill('🍇'),
+                ...Array(5).fill('🍉'),
+                ...Array(5).fill('🍓'),
+                ...Array(4).fill('🍍'),
+                ...Array(4).fill('🥭'),
+                ...Array(3).fill('🥥'),
+                ...Array(3).fill('🍈'),
+                ...Array(2).fill('☯️'),
+                ...Array(2).fill('🐉'),
+                ...Array(3).fill('7🖤'),
+                ...Array(2).fill('7🔴'),
+                ...Array(2).fill('7🔵'),
+                ...Array(2).fill('7🟢'),
+                ...Array(2).fill('7🟠'),
+                ...Array(2).fill('7🟣'),
+                ...Array(1).fill('7☯️')
+            ];
+
+            function getRandomSymbol() {
+                return weightedSymbols[Math.floor(Math.random() * weightedSymbols.length)];
+            }
+
+            const reels = document.querySelectorAll('.reel-content');
+            
+            // Set spin animation
+            reels.forEach(reel => reel.style.transform = 'translateY(-270px)');
+
+            // Reset and set new symbols after animation completes
+            setTimeout(() => {
+                reels.forEach(reel => {
+                    reel.style.transform = 'translateY(0)'; // Reset position
+                    
+                    const symbolsStack = [
+                        getRandomSymbol(),
+                        getRandomSymbol(),
+                        getRandomSymbol()
+                    ];
+
+                    reel.innerHTML = symbolsStack.map(symbol => `<div class="symbol">${symbol}</div>`).join('');
+                });
+
+                // Check for winning combinations
+                checkWin();
+            }, 500); // Duration of the animation
+        }
+
+        function checkWin() {
+            const reels = document.querySelectorAll('.reel-content');
+            const results = Array.from(reels).map(reel => Array.from(reel.children).map(child => child.innerText));
+
+            const winConditions = {
+                3: { multiplier: 1, baseWin: 5 },    // Win 5 times the baseWin for 3 of a kind
+                6: { multiplier: 5, baseWin: 10 },   // Win 10 times the baseWin for 6 of a kind
+                9: { multiplier: 10, baseWin: 20 }   // Win 20 times the baseWin for 9 of a kind
+            };
+
+            let win = 0;
+            for (let symbol of results[0]) {
+                const count = results.flat().filter(s => s === symbol).length;
+                if (symbol.includes('7') && betAmount === 1000) {
+                    win = 1000000; // Special win condition for 3x 7s with $1000 bet
+                    break;
+                }
+                if (winConditions[count]) {
+                    win = betAmount * winConditions[count].multiplier * winConditions[count].baseWin;
+                    break;
+                }
+            }
+
+            balance += win;
+            updateBalance();
+
+            if (win > 0) {
+                alert(`You win $${win}!`);
+            }
+        }
+    </script>
 </body>
 </html>
