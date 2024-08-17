@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frenzy Slots</title>
+    <title>Slot Machine Games</title>
     <style>
         body, html {
             margin: 0;
@@ -11,90 +11,74 @@
             height: 100%;
             width: 100%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             background-color: #003300; /* Deep green background color */
-            font-family: Arial, sans-serif;
         }
 
         .container {
-            position: relative;
-            width: 600px;
-            height: 600px;
-        }
-
-        .background-image {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: -1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            width: 80%;
+            gap: 20px;
         }
 
         .slot-machine {
             position: relative;
-            width: 100%;
-            height: 100%;
+            width: 300px;
+            height: 500px;
+            border: 2px solid #fff; /* White border for machines */
+            background-color: #333; /* Dark background for slot machines */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
         }
 
         .reel-container {
-            position: absolute;
-            top: 50px;
-            left: 50px;
-            width: 380px;
-            height: 300px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            height: 350px;
+            overflow: hidden;
         }
 
         .reel {
-            width: 110px;
-            height: 300px;
-            border: 2px solid #fff; /* White border for reels */
-            box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
-            background-color: #333; /* Dark background for reels */
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #fff; /* White border for each reel */
         }
 
         .reel-content {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: transform 0.5s ease-in-out;
         }
 
-        .reel-content .symbol {
-            font-size: 50px;
-            line-height: 100px; /* Adjust to center symbols */
+        .symbol {
+            font-size: 40px;
+            line-height: 70px; /* Adjust to center symbols */
         }
 
         .bet-options {
-            position: absolute;
-            top: 470px;
-            left: 50px;
             display: flex;
+            justify-content: center;
             gap: 10px;
+            margin: 10px 0;
         }
 
         .bet-options button {
             font-size: 18px;
-            padding: 10px;
+            padding: 5px;
             cursor: pointer;
         }
 
         .spin-button {
-            position: absolute;
-            top: 370px;
-            left: 50px;
-            padding: 15px 30px;
-            font-size: 20px;
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
             background-color: #ff9900; /* Orange color for button */
             color: white;
             border: none;
@@ -108,199 +92,292 @@
             background-color: #ff6600;
         }
 
-        .balance-section {
-            position: absolute;
-            top: 20px;
-            left: 20px;
+        .balance-section, .bet-section {
             color: white;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
         }
 
-        .bet-section {
-            position: absolute;
-            top: 60px;
-            left: 20px;
+        .slot-title {
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
-        }
-
-        .holiday-theme {
-            background-image: url('holiday-bg.jpg'); /* Holiday-themed background */
-        }
-
-        .japanese-theme {
-            background-image: url('japanese-bg.jpg'); /* Japanese-themed background */
-        }
-
-        .mexican-theme {
-            background-image: url('mexican-bg.jpg'); /* Mexican-themed background */
+            text-align: center;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Slot Machine Background Image -->
-        <img src="https://th.bing.com/th/id/OIG1.BYe0st4LgBKpHpTyJvsZ?w=1024&h=1024&rs=1&pid=ImgDetMain" alt="Slot Machine Background" class="background-image">
-
-        <!-- Slot Machine Display -->
+        <!-- Drinks Slot Machine -->
         <div class="slot-machine">
-            <!-- Holiday Theme Slot -->
-            <div class="reel-container holiday-theme">
+            <div class="slot-title">Drinks Slot Machine</div>
+            <div class="reel-container">
                 <div class="reel">
-                    <div class="reel-content" id="reel1">
-                        <div class="symbol">🎄</div>
-                        <div class="symbol">🎁</div>
-                        <div class="symbol">☃️</div>
-                    </div>
-                </div>
-                <div class="reel">
-                    <div class="reel-content" id="reel2">
-                        <div class="symbol">🎉</div>
+                    <div class="reel-content" id="drinksReel1">
+                        <div class="symbol">🍹</div>
+                        <div class="symbol">🍺</div>
+                        <div class="symbol">🍷</div>
+                        <div class="symbol">🍸</div>
                         <div class="symbol">🍾</div>
-                        <div class="symbol">🎊</div>
+                        <div class="symbol">🍻</div>
                     </div>
                 </div>
                 <div class="reel">
-                    <div class="reel-content" id="reel3">
-                        <div class="symbol">🎆</div>
-                        <div class="symbol">🎇</div>
-                        <div class="symbol">🎈</div>
+                    <div class="reel-content" id="drinksReel2">
+                        <div class="symbol">🍹</div>
+                        <div class="symbol">🍺</div>
+                        <div class="symbol">🍷</div>
+                        <div class="symbol">🍸</div>
+                        <div class="symbol">🍾</div>
+                        <div class="symbol">🍻</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="drinksReel3">
+                        <div class="symbol">🍹</div>
+                        <div class="symbol">🍺</div>
+                        <div class="symbol">🍷</div>
+                        <div class="symbol">🍸</div>
+                        <div class="symbol">🍾</div>
+                        <div class="symbol">🍻</div>
                     </div>
                 </div>
             </div>
-
-            <!-- Japanese Theme Slot -->
-            <div class="reel-container japanese-theme">
-                <div class="reel">
-                    <div class="reel-content" id="reel4">
-                        <div class="symbol">🎎</div>
-                        <div class="symbol">🎏</div>
-                        <div class="symbol">🎐</div>
-                    </div>
-                </div>
-                <div class="reel">
-                    <div class="reel-content" id="reel5">
-                        <div class="symbol">🍣</div>
-                        <div class="symbol">🍱</div>
-                        <div class="symbol">🍜</div>
-                    </div>
-                </div>
-                <div class="reel">
-                    <div class="reel-content" id="reel6">
-                        <div class="symbol">🌸</div>
-                        <div class="symbol">🍁</div>
-                        <div class="symbol">🗻</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mexican Theme Slot -->
-            <div class="reel-container mexican-theme">
-                <div class="reel">
-                    <div class="reel-content" id="reel7">
-                        <div class="symbol">🌮</div>
-                        <div class="symbol">🌯</div>
-                        <div class="symbol">🥑</div>
-                    </div>
-                </div>
-                <div class="reel">
-                    <div class="reel-content" id="reel8">
-                        <div class="symbol">🎉</div>
-                        <div class="symbol">🌵</div>
-                        <div class="symbol">💃</div>
-                    </div>
-                </div>
-                <div class="reel">
-                    <div class="reel-content" id="reel9">
-                        <div class="symbol">🌺</div>
-                        <div class="symbol">🌞</div>
-                        <div class="symbol">🎆</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- General Slot Machine Display -->
-            <div class="balance-section">
-                <p>Balance: $<span id="balance">350</span></p>
-            </div>
-
-            <div class="bet-section">
-                <p>Bet: $<span id="betAmount">1</span></p>
-            </div>
-
+            <div class="balance-section">Balance: $<span id="drinksBalance">100</span></div>
+            <div class="bet-section">Bet: $<span id="drinksBetAmount">5</span></div>
             <div class="bet-options">
-                <button onclick="setBet(1)">1</button>
-                <button onclick="setBet(5)">5</button>
-                <button onclick="setBet(10)">10</button>
-                <button onclick="setBet(20)">20</button>
-                <button onclick="setBet(100)">100</button>
-                <button onclick="setBet(1000)">1000</button>
+                <button onclick="setBet('drinks', 1)">1</button>
+                <button onclick="setBet('drinks', 5)">5</button>
+                <button onclick="setBet('drinks', 10)">10</button>
+                <button onclick="setBet('drinks', 20)">20</button>
+                <button onclick="setBet('drinks', 50)">50</button>
             </div>
+            <button class="spin-button" onclick="spin('drinks')">Spin</button>
+        </div>
 
-            <button class="spin-button" onclick="spin()">Spin</button>
+        <!-- Vegetables Slot Machine -->
+        <div class="slot-machine">
+            <div class="slot-title">Vegetables Slot Machine</div>
+            <div class="reel-container">
+                <div class="reel">
+                    <div class="reel-content" id="vegetablesReel1">
+                        <div class="symbol">🥕</div>
+                        <div class="symbol">🥦</div>
+                        <div class="symbol">🌽</div>
+                        <div class="symbol">🍆</div>
+                        <div class="symbol">🥒</div>
+                        <div class="symbol">🍅</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="vegetablesReel2">
+                        <div class="symbol">🥕</div>
+                        <div class="symbol">🥦</div>
+                        <div class="symbol">🌽</div>
+                        <div class="symbol">🍆</div>
+                        <div class="symbol">🥒</div>
+                        <div class="symbol">🍅</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="vegetablesReel3">
+                        <div class="symbol">🥕</div>
+                        <div class="symbol">🥦</div>
+                        <div class="symbol">🌽</div>
+                        <div class="symbol">🍆</div>
+                        <div class="symbol">🥒</div>
+                        <div class="symbol">🍅</div>
+                    </div>
+                </div>
+            </div>
+            <div class="balance-section">Balance: $<span id="vegetablesBalance">200</span></div>
+            <div class="bet-section">Bet: $<span id="vegetablesBetAmount">10</span></div>
+            <div class="bet-options">
+                <button onclick="setBet('vegetables', 1)">1</button>
+                <button onclick="setBet('vegetables', 5)">5</button>
+                <button onclick="setBet('vegetables', 10)">10</button>
+                <button onclick="setBet('vegetables', 20)">20</button>
+                <button onclick="setBet('vegetables', 50)">50</button>
+            </div>
+            <button class="spin-button" onclick="spin('vegetables')">Spin</button>
+        </div>
+
+        <!-- Cards and Dice Slot Machine -->
+        <div class="slot-machine">
+            <div class="slot-title">Cards & Dice Slot Machine</div>
+            <div class="reel-container">
+                <div class="reel">
+                    <div class="reel-content" id="cardsDiceReel1">
+                        <div class="symbol">🎲</div>
+                        <div class="symbol">♠️</div>
+                        <div class="symbol">♥️</div>
+                        <div class="symbol">♣️</div>
+                        <div class="symbol">♦️</div>
+                        <div class="symbol">🃏</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="cardsDiceReel2">
+                        <div class="symbol">🎲</div>
+                        <div class="symbol">♠️</div>
+                        <div class="symbol">♥️</div>
+                        <div class="symbol">♣️</div>
+                        <div class="symbol">♦️</div>
+                        <div class="symbol">🃏</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="cardsDiceReel3">
+                        <div class="symbol">🎲</div>
+                        <div class="symbol">♠️</div>
+                        <div class="symbol">♥️</div>
+                        <div class="symbol">♣️</div>
+                        <div class="symbol">♦️</div>
+                        <div class="symbol">🃏</div>
+                    </div>
+                </div>
+            </div>
+            <div class="balance-section">Balance: $<span id="cardsDiceBalance">300</span></div>
+            <div class="bet-section">Bet: $<span id="cardsDiceBetAmount">15</span></div>
+            <div class="bet-options">
+                <button onclick="setBet('cardsDice', 1)">1</button>
+                <button onclick="setBet('cardsDice', 5)">5</button>
+                <button onclick="setBet('cardsDice', 10)">10</button>
+                <button onclick="setBet('cardsDice', 20)">20</button>
+                <button onclick="setBet('cardsDice', 50)">50</button>
+            </div>
+            <button class="spin-button" onclick="spin('cardsDice')">Spin</button>
+        </div>
+
+        <!-- Fruits Slot Machine -->
+        <div class="slot-machine">
+            <div class="slot-title">Fruits Slot Machine</div>
+            <div class="reel-container">
+                <div class="reel">
+                    <div class="reel-content" id="fruitsReel1">
+                        <div class="symbol">🍎</div>
+                        <div class="symbol">🍏</div>
+                        <div class="symbol">🍌</div>
+                        <div class="symbol">🍒</div>
+                        <div class="symbol">🍇</div>
+                        <div class="symbol">🍉</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="fruitsReel2">
+                        <div class="symbol">🍎</div>
+                        <div class="symbol">🍏</div>
+                        <div class="symbol">🍌</div>
+                        <div class="symbol">🍒</div>
+                        <div class="symbol">🍇</div>
+                        <div class="symbol">🍉</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="fruitsReel3">
+                        <div class="symbol">🍎</div>
+                        <div class="symbol">🍏</div>
+                        <div class="symbol">🍌</div>
+                        <div class="symbol">🍒</div>
+                        <div class="symbol">🍇</div>
+                        <div class="symbol">🍉</div>
+                    </div>
+                </div>
+            </div>
+            <div class="balance-section">Balance: $<span id="fruitsBalance">400</span></div>
+            <div class="bet-section">Bet: $<span id="fruitsBetAmount">20</span></div>
+            <div class="bet-options">
+                <button onclick="setBet('fruits', 1)">1</button>
+                <button onclick="setBet('fruits', 5)">5</button>
+                <button onclick="setBet('fruits', 10)">10</button>
+                <button onclick="setBet('fruits', 20)">20</button>
+                <button onclick="setBet('fruits', 50)">50</button>
+            </div>
+            <button class="spin-button" onclick="spin('fruits')">Spin</button>
+        </div>
+
+        <!-- Mexican Names Slot Machine -->
+        <div class="slot-machine">
+            <div class="slot-title">Mexican Names Slot Machine</div>
+            <div class="reel-container">
+                <div class="reel">
+                    <div class="reel-content" id="mexicanNamesReel1">
+                        <div class="symbol">Juan</div>
+                        <div class="symbol">José</div>
+                        <div class="symbol">Luis</div>
+                        <div class="symbol">Carlos</div>
+                        <div class="symbol">Miguel</div>
+                        <div class="symbol">Sofia</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="mexicanNamesReel2">
+                        <div class="symbol">Juan</div>
+                        <div class="symbol">José</div>
+                        <div class="symbol">Luis</div>
+                        <div class="symbol">Carlos</div>
+                        <div class="symbol">Miguel</div>
+                        <div class="symbol">Sofia</div>
+                    </div>
+                </div>
+                <div class="reel">
+                    <div class="reel-content" id="mexicanNamesReel3">
+                        <div class="symbol">Juan</div>
+                        <div class="symbol">José</div>
+                        <div class="symbol">Luis</div>
+                        <div class="symbol">Carlos</div>
+                        <div class="symbol">Miguel</div>
+                        <div class="symbol">Sofia</div>
+                    </div>
+                </div>
+            </div>
+            <div class="balance-section">Balance: $<span id="mexicanNamesBalance">500</span></div>
+            <div class="bet-section">Bet: $<span id="mexicanNamesBetAmount">25</span></div>
+            <div class="bet-options">
+                <button onclick="setBet('mexicanNames', 1)">1</button>
+                <button onclick="setBet('mexicanNames', 5)">5</button>
+                <button onclick="setBet('mexicanNames', 10)">10</button>
+                <button onclick="setBet('mexicanNames', 20)">20</button>
+                <button onclick="setBet('mexicanNames', 50)">50</button>
+            </div>
+            <button class="spin-button" onclick="spin('mexicanNames')">Spin</button>
         </div>
     </div>
 
     <script>
-        let balance = 350; // Initial balance
-        let betAmount = 1; // Initial bet amount
+        const balances = {
+            drinks: 100,
+            vegetables: 200,
+            cardsDice: 300,
+            fruits: 400,
+            mexicanNames: 500
+        };
 
-        function updateBalance() {
-            document.getElementById('balance').innerText = balance;
+        function setBet(machine, amount) {
+            document.getElementById(machine + 'BetAmount').innerText = amount;
         }
 
-        function setBet(amount) {
-            betAmount = amount;
-            document.getElementById('betAmount').innerText = betAmount;
+        function spin(machine) {
+            const reels = document.querySelectorAll(`#${machine}Reel1 .reel-content, #${machine}Reel2 .reel-content, #${machine}Reel3 .reel-content`);
+            reels.forEach(reel => {
+                const symbols = reel.children;
+                const randomOffset = Math.floor(Math.random() * (symbols.length - 1));
+                reel.style.transform = `translateY(-${randomOffset * 70}px)`;
+            });
+
+            // Simulate a spin and update balance
+            const betAmount = parseInt(document.getElementById(machine + 'BetAmount').innerText);
+            const currentBalance = balances[machine];
+            const newBalance = currentBalance - betAmount;
+            balances[machine] = newBalance;
+            document.getElementById(machine + 'Balance').innerText = newBalance;
+
+            console.log(`Spinning ${machine} slot machine...`);
+            // Add game logic here for winning or losing, updating balance, etc.
         }
-
-        function spin() {
-            if (balance < betAmount) {
-                alert('Not enough balance to spin!');
-                return;
-            }
-
-            balance -= betAmount;
-            updateBalance();
-
-            const symbols = [
-                '🎄', '🎁', '☃️', '🎉', '🍾', '🎊', '🎆', '🎇', '🎈', 
-                '🎎', '🎏', '🎐', '🍣', '🍱', '🍜', '🌸', '🍁', '🗻',
-                '🌮', '🌯', '🥑', '🌵', '💃', '🌺', '🌞'
-            ];
-
-            function getRandomSymbol() {
-                return symbols[Math.floor(Math.random() * symbols.length)];
-            }
-
-            function spinReel(reelId) {
-                const reel = document.getElementById(reelId);
-                const content = reel.querySelector('.reel-content');
-                const symbolsToShow = Array.from({ length: 3 }, getRandomSymbol);
-                content.innerHTML = symbolsToShow.map(symbol => `<div class="symbol">${symbol}</div>`).join('');
-                content.style.transform = 'translateY(-300px)';
-                setTimeout(() => {
-                    content.style.transform = 'translateY(0)';
-                }, 50);
-            }
-
-            spinReel('reel1');
-            spinReel('reel2');
-            spinReel('reel3');
-            spinReel('reel4');
-            spinReel('reel5');
-            spinReel('reel6');
-            spinReel('reel7');
-            spinReel('reel8');
-            spinReel('reel9');
-
-            // Simulate win/loss logic (e.g., check if all reels show the same symbol)
-            // This part would require more sophisticated logic to determine wins.
-        }
-
-        updateBalance();
     </script>
 </body>
 </html>
